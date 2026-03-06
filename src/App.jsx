@@ -2,29 +2,20 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { ChevronDown, MoonStarIcon, SunIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import LiquidEffectAnimation from "./components/LiquidEffectAnimation";
-const Button = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ className = "", children, ...props }, ref) => {
-    return (
-      <button
-        ref={ref}
-        className={`inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors ${className}`}
-        {...props}
-      >
-        {children}
-      </button>
-    );
-  }
+const Button = React.forwardRef(({ className = "", children, ...props }, ref) => {
+  return (
+    <button
+      ref={ref}
+      className={`inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 );
 Button.displayName = "Button";
-interface BlurTextProps {
-  text: string;
-  delay?: number;
-  animateBy?: "words" | "letters";
-  direction?: "top" | "bottom";
-  className?: string;
-  style?: React.CSSProperties;
-}
-const BlurText: React.FC<BlurTextProps> = ({
+const BlurText = ({
   text,
   delay = 50,
   animateBy = "words",
@@ -33,7 +24,7 @@ const BlurText: React.FC<BlurTextProps> = ({
   style,
 }) => {
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLParagraphElement>(null);
+  const ref = useRef(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -78,14 +69,14 @@ const BlurText: React.FC<BlurTextProps> = ({
   );
 };
 function PortfolioHero() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState < 'light' | 'dark' > ('dark');
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
     root.classList.add(theme);
   }, [theme]);
-  const handleThemeChange = (newTheme: 'light' | 'dark') => {
+  const handleThemeChange = (newTheme) => {
     if (theme === newTheme) return;
     if (!document.startViewTransition) {
       setTheme(newTheme);
@@ -127,21 +118,21 @@ function PortfolioHero() {
     <div
       className="min-h-screen transition-colors overflow-hidden bg-gray-50 dark:bg-black text-gray-900 dark:text-white"
     >
-      {}
+      { }
       <header className={`fixed top-0 left-0 right-0 z-50 px-6 py-6 w-full transition-all duration-300 ${isScrolled ? "bg-white/70 dark:bg-black/70 backdrop-blur-md py-4 shadow-sm" : "bg-transparent py-6"}`}>
         <nav className="flex items-center justify-between max-w-screen-2xl mx-auto font-mono">
-          {}
+          { }
           <div className="flex items-center text-gray-900 dark:text-white text-[18px] font-medium">
             <span className="tracking-tight">Ankit</span>
           </div>
-          {}
+          { }
           <div className="hidden md:flex items-center gap-12 text-[14px] text-gray-700 dark:text-gray-300">
             <a href="#about" className="hover:text-black dark:hover:text-white transition-colors">About</a>
             <a href="#projects" className="hover:text-black dark:hover:text-white transition-colors">Projects</a>
             <a href="#integrations" className="hover:text-black dark:hover:text-white transition-colors">Integrations</a>
             <a href="#contact" className="hover:text-black dark:hover:text-white transition-colors">Contact</a>
           </div>
-          {}
+          { }
           <div className="flex items-center gap-4 flex-wrap">
             <a href="https://github.com/Ironankit525" target="_blank" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 p-2 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:bg-black dark:hover:bg-gray-200 hover:scale-105" aria-label="GitHub">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -156,7 +147,7 @@ function PortfolioHero() {
                 <circle cx="4" cy="4" r="2"></circle>
               </svg>
             </a>
-            {}
+            { }
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -200,15 +191,15 @@ function PortfolioHero() {
           </div>
         </nav>
       </header>
-      {}
+      { }
       <main className="relative z-0 min-h-screen flex flex-col">
-        {}
+        { }
         <LiquidEffectAnimation
           imageUrl="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2560&auto=format&fit=crop"
           metalness={0.9}
           roughness={0.15}
         />
-        {}
+        { }
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-4">
           <div className="relative text-center flex flex-col items-center">
             <div className="z-0 relative">
@@ -231,7 +222,7 @@ function PortfolioHero() {
                 style={{ color: "#C3E41D", fontFamily: "'Fira Code', monospace" }}
               />
             </div>
-            {}
+            { }
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
               <div className="w-[120px] h-[180px] sm:w-[160px] sm:h-[240px] md:w-[200px] md:h-[300px] lg:w-[240px] lg:h-[360px] rounded-full overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-110 cursor-pointer pointer-events-auto ring-4 ring-transparent hover:ring-[#C3E41D]/30">
                 <img
@@ -243,7 +234,7 @@ function PortfolioHero() {
             </div>
           </div>
         </div>
-        {}
+        { }
         <div className="absolute bottom-20 sm:bottom-24 md:bottom-32 left-1/2 -translate-x-1/2 w-full px-6">
           <div className="flex flex-col justify-center items-center">
             <BlurText
@@ -264,7 +255,7 @@ function PortfolioHero() {
             />
           </div>
         </div>
-        {}
+        { }
         <button
           type="button"
           className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 transition-colors duration-300 animate-bounce"
@@ -277,12 +268,12 @@ function PortfolioHero() {
   );
 }
 import AboutSection1 from "./components/AboutSection";
-import FeaturedProjectsSection, { type Gallery4Item } from "./components/FeaturedProjectsSection";
+import FeaturedProjectsSection from "./components/FeaturedProjectsSection";
 import IntegrationSection from "./components/IntegrationSection";
 import ContactSection from "./components/ContactSection";
 import ProjectGallery from "./components/ProjectGallery";
 import armCover from "./assets/Screenshot 2026-03-06 at 5.57.37 AM.png";
-const demoData: Gallery4Item[] = [
+const demoData = [
   {
     id: "arm-ecommerce",
     title: "ARM E-Commerce Platform",

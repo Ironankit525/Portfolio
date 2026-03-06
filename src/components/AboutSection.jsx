@@ -8,21 +8,14 @@ import React, {
     useRef,
     useState,
 } from "react";
-import { motion, useInView, type Transition } from "framer-motion";
-import { clsx, type ClassValue } from "clsx";
+import { clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
-function cn(...inputs: ClassValue[]) {
+import { motion, useInView } from "framer-motion";
+
+function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
-interface TimelineContentProps {
-    children?: React.ReactNode;
-    className?: string;
-    style?: React.CSSProperties;
-    animationNum?: number;
-    customVariants?: any;
-    timelineRef?: React.RefObject<any>;
-    as?: any;
-}
+
 const TimelineContent = ({
     children,
     className,
@@ -31,11 +24,11 @@ const TimelineContent = ({
     customVariants,
     timelineRef,
     as = "div",
-}: TimelineContentProps) => {
-    const internalRef = useRef<any>(null);
+}) => {
+    const internalRef = useRef(null);
     const ref = timelineRef || internalRef;
     const isInView = useInView(ref, { once: true, margin: "-10%" });
-    const MotionComponent = motion(as as any) as any;
+    const MotionComponent = motion(as);
     return (
         <MotionComponent
             ref={!timelineRef ? internalRef : undefined}
@@ -50,30 +43,7 @@ const TimelineContent = ({
         </MotionComponent>
     );
 };
-interface TextProps {
-    children: React.ReactNode;
-    reverse?: boolean;
-    transition?: Transition;
-    splitBy?: "words" | "characters" | "lines" | string;
-    staggerDuration?: number;
-    staggerFrom?: "first" | "last" | "center" | "random" | number;
-    containerClassName?: string;
-    wordLevelClassName?: string;
-    elementLevelClassName?: string;
-    onClick?: () => void;
-    onStart?: () => void;
-    onComplete?: () => void;
-    autoStart?: boolean;
-}
-export interface VerticalCutRevealRef {
-    startAnimation: () => void;
-    reset: () => void;
-}
-interface WordObject {
-    characters: string[];
-    needsSpace: boolean;
-}
-const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
+const VerticalCutReveal = forwardRef(
     (
         {
             children,
@@ -97,10 +67,10 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
         },
         ref
     ) => {
-        const containerRef = useRef<HTMLSpanElement>(null);
+        const containerRef = useRef(null);
         const text = typeof children === "string" ? children : children?.toString() || "";
         const [isAnimating, setIsAnimating] = useState(false);
-        const splitIntoCharacters = (text: string): string[] => {
+        const splitIntoCharacters = (text) => {
             if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
                 const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
                 return Array.from(segmenter.segment(text), ({ segment }) => segment);
@@ -122,7 +92,7 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
                     : text.split(splitBy);
         }, [text, splitBy]);
         const getStaggerDelay = useCallback(
-            (index: number) => {
+            (index) => {
                 const total =
                     splitBy === "characters"
                         ? elements.reduce(
@@ -130,7 +100,7 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
                                 acc +
                                 (typeof word === "string"
                                     ? 1
-                                    : (word as WordObject).characters.length + ((word as WordObject).needsSpace ? 1 : 0)),
+                                    : word.characters.length + (word.needsSpace ? 1 : 0)),
                             0
                         )
                         : elements.length;
@@ -163,11 +133,11 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
         }, [autoStart, startAnimation]);
         const variants = {
             hidden: { y: reverse ? "-100%" : "100%" },
-            visible: (i: number) => ({
+            visible: (i) => ({
                 y: 0,
                 transition: {
                     ...transition,
-                    delay: ((transition?.delay as number) || 0) + getStaggerDelay(i),
+                    delay: (transition?.delay || 0) + getStaggerDelay(i),
                 },
             }),
         };
@@ -184,8 +154,8 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
             >
                 <span className="sr-only">{text}</span>
                 {(splitBy === "characters"
-                    ? (elements as WordObject[])
-                    : (elements as string[]).map((el, i) => ({
+                    ? elements
+                    : elements.map((el, i) => ({
                         characters: [el],
                         needsSpace: i !== elements.length - 1,
                     }))
@@ -234,9 +204,9 @@ const VerticalCutReveal = forwardRef<VerticalCutRevealRef, TextProps>(
 );
 VerticalCutReveal.displayName = "VerticalCutReveal";
 export default function AboutSection1() {
-    const heroRef = useRef<HTMLDivElement>(null);
+    const heroRef = useRef(null);
     const revealVariants = {
-        visible: (i: number) => ({
+        visible: (i) => ({
             y: 0,
             opacity: 1,
             filter: "blur(0px)",
@@ -252,7 +222,7 @@ export default function AboutSection1() {
         },
     };
     const revealVariants2 = {
-        visible: (i: number) => ({
+        visible: (i) => ({
             y: 0,
             opacity: 1,
             filter: "blur(0px)",
@@ -268,7 +238,7 @@ export default function AboutSection1() {
         },
     };
     const revealVariants3 = {
-        visible: (i: number) => ({
+        visible: (i) => ({
             y: 0,
             opacity: 1,
             transition: {

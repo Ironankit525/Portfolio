@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback, forwardRef, createContext, useContext } from "react";
 import { ArrowLeft, ArrowRight, Github } from "lucide-react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
-import { clsx, type ClassValue } from "clsx";
+import { cva } from "class-variance-authority";
+import useEmblaCarousel from "embla-carousel-react";
+import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-function cn(...inputs: ClassValue[]) {
+function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
 const buttonVariants = cva(
@@ -33,41 +33,20 @@ const buttonVariants = cva(
         },
     }
 );
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-    asChild?: boolean;
-}
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
         const Comp = asChild ? Slot : "button";
         return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
     }
 );
 Button.displayName = "Button";
-type CarouselApi = UseEmblaCarouselType[1];
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
-type CarouselOptions = UseCarouselParameters[0];
-type CarouselPlugin = UseCarouselParameters[1];
-type CarouselProps = {
-    opts?: CarouselOptions;
-    plugins?: CarouselPlugin;
-    orientation?: "horizontal" | "vertical";
-    setApi?: (api: CarouselApi) => void;
-};
-type CarouselContextProps = {
-    carouselRef: ReturnType<typeof useEmblaCarousel>[0];
-    api: ReturnType<typeof useEmblaCarousel>[1];
-    scrollPrev: () => void;
-    scrollNext: () => void;
-    canScrollPrev: boolean;
-    canScrollNext: boolean;
-} & CarouselProps;
-const CarouselContext = createContext<CarouselContextProps | null>(null);
+const CarouselContext = createContext(null);
 function useCarousel() {
     const context = useContext(CarouselContext);
     if (!context) throw new Error("useCarousel must be used within a <Carousel />");
     return context;
 }
-const Carousel = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & CarouselProps>(
+const Carousel = forwardRef(
     ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }, ref) => {
         const [carouselRef, api] = useEmblaCarousel(
             { ...opts, axis: orientation === "horizontal" ? "x" : "y" },
@@ -75,7 +54,7 @@ const Carousel = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>
         );
         const [canScrollPrev, setCanScrollPrev] = useState(false);
         const [canScrollNext, setCanScrollNext] = useState(false);
-        const onSelect = useCallback((api: CarouselApi) => {
+        const onSelect = useCallback((api) => {
             if (!api) return;
             setCanScrollPrev(api.canScrollPrev());
             setCanScrollNext(api.canScrollNext());
@@ -120,7 +99,7 @@ const Carousel = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>
     }
 );
 Carousel.displayName = "Carousel";
-const CarouselContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const CarouselContent = forwardRef(
     ({ className, ...props }, ref) => {
         const { carouselRef, orientation } = useCarousel();
         return (
@@ -139,7 +118,7 @@ const CarouselContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
     }
 );
 CarouselContent.displayName = "CarouselContent";
-const CarouselItem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const CarouselItem = forwardRef(
     ({ className, ...props }, ref) => {
         const { orientation } = useCarousel();
         return (
@@ -158,28 +137,12 @@ const CarouselItem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElem
     }
 );
 CarouselItem.displayName = "CarouselItem";
-export interface Gallery4Item {
-    id: string;
-    title: string;
-    description: string;
-    href: string;
-    image: string;
-    linkText?: string;
-    tags?: string[];
-    githubUrl?: string;
-    liveUrl?: string;
-}
-export interface Gallery4Props {
-    title?: string;
-    description?: string;
-    items: Gallery4Item[];
-}
 export default function FeaturedProjectsSection({
     title = "Featured Projects",
     description = "A selection of case studies highlighting our work with modern web technologies and frameworks.",
     items = [],
-}: Gallery4Props) {
-    const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+}) {
+    const [carouselApi, setCarouselApi] = useState();
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -279,7 +242,7 @@ export default function FeaturedProjectsSection({
                             ))}
                         </CarouselContent>
                     </Carousel>
-                    {}
+                    { }
                     <div className="mt-8 flex items-center justify-center gap-4">
                         <div className="flex gap-2">
                             {items.map((_, index) => (

@@ -1,16 +1,16 @@
 "use client";
 import React, { useState } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { Check, Twitter, Linkedin, Github } from 'lucide-react';
-import { clsx, type ClassValue } from 'clsx';
+import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-function cn(...inputs: ClassValue[]) {
+function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
-const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+const Input = React.forwardRef(
     ({ className, type, ...props }, ref) => {
         return (
             <input
@@ -51,10 +51,7 @@ const buttonVariants = cva(
         },
     }
 )
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
-    asChild?: boolean
-}
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
         const Comp = asChild ? Slot : "button"
         return (
@@ -67,8 +64,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 )
 Button.displayName = "Button"
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> { }
-const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+const Textarea = React.forwardRef(
     ({ className, ...props }, ref) => {
         return (
             <textarea
@@ -84,7 +80,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 )
 Textarea.displayName = "Textarea"
 const labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700 dark:text-gray-300")
-const Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>>(
+const Label = React.forwardRef(
     ({ className, ...props }, ref) => (
         <LabelPrimitive.Root
             ref={ref}
@@ -94,7 +90,7 @@ const Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, Rea
     )
 )
 Label.displayName = LabelPrimitive.Root.displayName
-const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>>(
+const Checkbox = React.forwardRef(
     ({ className, ...props }, ref) => (
         <CheckboxPrimitive.Root
             ref={ref}
@@ -111,14 +107,6 @@ const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root
     )
 )
 Checkbox.displayName = CheckboxPrimitive.Root.displayName
-interface ContactSectionProps {
-    title?: string;
-    mainMessage?: string;
-    contactEmail?: string;
-    socialLinks?: Array<{ id: string; name: string; icon: React.ReactNode; href: string }>;
-    backgroundImageSrc?: string;
-    onSubmit?: (data: any) => void;
-}
 const defaultSocialLinks = [
     { id: '1', name: 'X', icon: <Twitter className="h-4 w-4" />, href: '#x' },
     { id: '2', name: 'GitHub', icon: <Github className="h-4 w-4" />, href: 'https://github.com/Ironankit525' },
@@ -130,18 +118,18 @@ export default function ContactSection({
     contactEmail = "hello@pixelperfect.com",
     socialLinks = defaultSocialLinks,
     onSubmit,
-}: ContactSectionProps) {
+}) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: '',
     });
-    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const [status, setStatus] = useState('idle');
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus('submitting');
         try {
@@ -156,7 +144,7 @@ export default function ContactSection({
                 setStatus('success');
                 setFormData({ name: '', email: '', message: '' });
                 onSubmit?.(formData);
-                setTimeout(() => setStatus('idle'), 3000); 
+                setTimeout(() => setStatus('idle'), 3000);
             } else {
                 setStatus('error');
             }
@@ -167,7 +155,7 @@ export default function ContactSection({
     };
     return (
         <section id="contact" className="relative min-h-screen w-full overflow-hidden bg-neutral-50 dark:bg-black text-neutral-900 dark:text-white font-sans transition-colors duration-500">
-            {}
+            { }
             <div className="absolute inset-0 z-0 overflow-hidden">
                 {Array.from({ length: 60 }).map((_, i) => (
                     <div
@@ -184,7 +172,7 @@ export default function ContactSection({
                     />
                 ))}
             </div>
-            {}
+            { }
             <div className="absolute inset-0 z-0 overflow-hidden">
                 {Array.from({ length: 15 }).map((_, i) => (
                     <div
@@ -201,11 +189,11 @@ export default function ContactSection({
                     />
                 ))}
             </div>
-            {}
+            { }
             <div className="relative z-10 flex flex-col items-center justify-center w-full min-h-screen p-4 md:p-8 lg:p-12">
-                {}
+                { }
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl rounded-xl flex-grow items-center">
-                    {}
+                    { }
                     <div className="flex flex-col justify-center p-4 lg:p-8 h-full">
                         <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-neutral-900 dark:text-gray-100 leading-tight drop-shadow-sm">
                             {title}
@@ -213,7 +201,7 @@ export default function ContactSection({
                         <p className="mt-6 text-lg text-neutral-600 dark:text-gray-400 max-w-md">
                             I’m always open to collaborating on impactful projects, open-source contributions, or innovative AI ideas. Whether you have a project in mind or just want to connect — I’d love to hear from you.
                         </p>
-                        {}
+                        { }
                         <div className="mt-12 flex items-center gap-4">
                             {socialLinks.map((link) => (
                                 <a
@@ -228,12 +216,12 @@ export default function ContactSection({
                             ))}
                         </div>
                     </div>
-                    {}
+                    { }
                     <div className="bg-neutral-200 dark:bg-zinc-950 p-6 md:p-8 lg:p-10 rounded-2xl shadow-xl border border-neutral-200 dark:border-zinc-800 w-full relative overflow-hidden">
-                        {}
+                        { }
                         <div className="absolute top-[-50px] right-[-50px] w-[150px] h-[150px] bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
                         <h2 className="text-3xl font-bold text-neutral-900 dark:text-gray-100 mb-2 relative z-10">{mainMessage}</h2>
-                        {}
+                        { }
                         <div className="mb-8 relative z-10">
                             <p className="text-neutral-500 dark:text-gray-400 mb-1 text-sm font-medium">Mail me</p>
                             <a href={`mailto:${contactEmail}`} className="text-[#C3E41D] dark:text-[#C3E41D] hover:underline font-semibold text-lg">
@@ -241,7 +229,7 @@ export default function ContactSection({
                             </a>
                         </div>
                         <hr className="my-8 border-neutral-200 dark:border-zinc-800 relative z-10" />
-                        {}
+                        { }
                         <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                             <p className="text-neutral-900 dark:text-gray-100 font-semibold">Send me a message</p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

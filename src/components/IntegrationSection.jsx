@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import { clsx, type ClassValue } from "clsx";
+import { cva } from "class-variance-authority";
+import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
     BrainCircuit,
@@ -30,7 +30,7 @@ import { FaJava, FaGitAlt, FaGithub } from "react-icons/fa";
 import { VscVscode } from "react-icons/vsc";
 import { SiGooglesheets } from "react-icons/si";
 import { ShieldCheck, Server, Cpu } from "lucide-react";
-export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
 const buttonVariants = cva(
@@ -58,12 +58,7 @@ const buttonVariants = cva(
         },
     }
 );
-export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-    asChild?: boolean;
-}
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
         const Comp = asChild ? Slot : "button";
         return (
@@ -140,9 +135,9 @@ const EXPLORING_TECH = [
 export default function IntegrationSection() {
     return (
         <section id="integrations" className="relative py-32 overflow-hidden bg-white dark:bg-zinc-950 w-full min-h-screen flex items-center">
-            {}
+            { }
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.04)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:24px_24px]" />
-            {}
+            { }
             <div className="relative max-w-7xl mx-auto px-6 w-full">
                 <div className="text-center mb-16">
                     <span className="inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-black dark:text-white shadow-sm">
@@ -155,7 +150,7 @@ export default function IntegrationSection() {
                         A categorized breakdown of the tools, languages, and frameworks I use to build robust and scalable systems.
                     </p>
                 </div>
-                {}
+                { }
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
                     {CORE_TECH_STACK.map((category, idx) => (
                         <div key={idx} className="flex flex-col p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800">
@@ -178,7 +173,7 @@ export default function IntegrationSection() {
                         </div>
                     ))}
                 </div>
-                {}
+                { }
                 <div className="relative p-8 rounded-3xl border-2 border-dashed border-zinc-300 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900/50 dark:to-zinc-950/50">
                     <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4 text-center md:text-left">
                         <div>
