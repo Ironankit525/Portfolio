@@ -12,6 +12,11 @@ import { clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 import { motion, useInView } from "framer-motion";
 
+import photo1 from "../assets/Gemini_Generated_Image_kjsriikjsriikjsr.png";
+import photo2 from "../assets/unwatermarked_Gemini_Generated_Image_c2w2vgc2w2vgc2w2.png";
+import photo3 from "../assets/ChatGPT Image Mar 4, 2026 at 03_15_20 AM.png";
+import photo4 from "../assets/unwatermarked_unwatermarked_Gemini_Generated_Image_yv80p9yv80p9yv80.png";
+
 function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
@@ -356,7 +361,7 @@ export default function AboutSection1() {
                     style={{ clipPath: "url(#clip-squiggle)" }}
                 >
                     <img
-                        src="src/assets/unwatermarked_Gemini_Generated_Image_kjsriikjsriikjsr.png"
+                        src={photo1}
                         alt="photo1"
                         className="object-cover w-full h-full rotate-6"
                     />
@@ -370,7 +375,7 @@ export default function AboutSection1() {
                     style={{ clipPath: "url(#differentone16)" }}
                 >
                     <img
-                        src="src/assets/ChatGPT Image Mar 4, 2026 at 03_05_38 AM.png"
+                        src={photo2}
                         alt="photo2"
                         className="object-cover w-full h-full -rotate-6"
                     />
@@ -384,7 +389,7 @@ export default function AboutSection1() {
                     style={{ clipPath: "url(#differentone8)" }}
                 >
                     <img
-                        src="src/assets/ChatGPT Image Mar 4, 2026 at 03_16_56 AM.png"
+                        src={photo3}
                         alt="photo3"
                         className="object-cover w-full h-full -rotate-6"
                     />
@@ -398,7 +403,7 @@ export default function AboutSection1() {
                     style={{ clipPath: "url(#clip-rect)" }}
                 >
                     <img
-                        src="src/assets/unwatermarked_Gemini_Generated_Image_yv80p9yv80p9yv80.png"
+                        src={photo4}
                         alt="photo4"
                         className="object-cover w-full h-full rotate-6"
                     />
