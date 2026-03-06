@@ -69,7 +69,7 @@ const BlurText = ({
   );
 };
 function PortfolioHero() {
-  const [theme, setTheme] = useState < 'light' | 'dark' > ('dark');
+  const [theme, setTheme] = useState('dark');
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const root = window.document.documentElement;
