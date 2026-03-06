@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { ChevronDown, MoonStarIcon, SunIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import LiquidEffectAnimation from "./components/LiquidEffectAnimation";
+import profilePic from "./assets/unwatermarked_Gemini_Generated_Image_y3h8v4y3h8v4y3h8.png";
 const Button = React.forwardRef(({ className = "", children, ...props }, ref) => {
   return (
     <button
@@ -226,7 +227,7 @@ function PortfolioHero() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
               <div className="w-[120px] h-[180px] sm:w-[160px] sm:h-[240px] md:w-[200px] md:h-[300px] lg:w-[240px] lg:h-[360px] rounded-full overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-110 cursor-pointer pointer-events-auto ring-4 ring-transparent hover:ring-[#C3E41D]/30">
                 <img
-                  src="src/assets/unwatermarked_Gemini_Generated_Image_y3h8v4y3h8v4y3h8.png"
+                  src={profilePic}
                   alt="Ankit Kumar Profile"
                   className="w-full h-full object-cover"
                 />
