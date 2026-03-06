@@ -12,9 +12,9 @@ import { clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 import { motion, useInView } from "framer-motion";
 
-import photo1 from "../assets/Gemini_Generated_Image_kjsriikjsriikjsr.png";
-import photo2 from "../assets/unwatermarked_Gemini_Generated_Image_c2w2vgc2w2vgc2w2.png";
-import photo3 from "../assets/ChatGPT Image Mar 4, 2026 at 03_15_20 AM.png";
+import photo1 from "../assets/unwatermarked_Gemini_Generated_Image_c2w2vgc2w2vgc2w2.png";
+import photo2 from "../assets/ChatGPT Image Mar 4, 2026 at 03_15_20 AM.png";
+import photo3 from "../assets/ChatGPT Image Mar 6, 2026 at 06_59_24 AM.png";
 import photo4 from "../assets/unwatermarked_unwatermarked_Gemini_Generated_Image_yv80p9yv80p9yv80.png";
 
 function cn(...inputs) {
