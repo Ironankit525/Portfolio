@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import img1 from '../assets/Screenshot 2026-03-06 at 5.55.29 AM.png';
-import img2 from '../assets/Screenshot 2026-03-06 at 5.55.41 AM.png';
-import img3 from '../assets/Screenshot 2026-03-06 at 5.56.15 AM.png';
-import img4 from '../assets/Screenshot 2026-03-06 at 5.56.26 AM.png';
-import img5 from '../assets/Screenshot 2026-03-06 at 5.56.46 AM.png';
-import img6 from '../assets/Screenshot 2026-03-06 at 5.57.37 AM.png';
-import img7 from '../assets/Screenshot 2026-03-06 at 5.57.48 AM.png';
-import img8 from '../assets/Screenshot 2026-03-06 at 5.57.58 AM.png';
+import img1 from '../assets/Screenshot 2026-03-06 at 5.55.29 AM.webp';
+import img2 from '../assets/Screenshot 2026-03-06 at 5.55.41 AM.webp';
+import img3 from '../assets/Screenshot 2026-03-06 at 5.56.15 AM.webp';
+import img4 from '../assets/Screenshot 2026-03-06 at 5.56.26 AM.webp';
+import img5 from '../assets/Screenshot 2026-03-06 at 5.56.46 AM.webp';
+import img6 from '../assets/Screenshot 2026-03-06 at 5.57.37 AM.webp';
+import img7 from '../assets/Screenshot 2026-03-06 at 5.57.48 AM.webp';
+import img8 from '../assets/Screenshot 2026-03-06 at 5.57.58 AM.webp';
 const images = [img1, img2, img3, img4, img5, img6, img7, img8];
 export default function ProjectGallery() {
     useEffect(() => {
