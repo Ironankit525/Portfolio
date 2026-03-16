@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { ChevronDown, MoonStarIcon, SunIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import LiquidEffectAnimation from "./components/LiquidEffectAnimation";
-import profilePic from "./assets/unwatermarked_Gemini_Generated_Image_y3h8v4y3h8v4y3h8.png";
+import profilePic from "./assets/unwatermarked_Gemini_Generated_Image_y3h8v4y3h8v4y3h8.webp";
+import armCover from "./assets/Screenshot 2026-03-06 at 5.57.37 AM.webp";
 const Button = React.forwardRef(({ className = "", children, ...props }, ref) => {
   return (
     <button
@@ -273,7 +274,7 @@ import FeaturedProjectsSection from "./components/FeaturedProjectsSection";
 import IntegrationSection from "./components/IntegrationSection";
 import ContactSection from "./components/ContactSection";
 import ProjectGallery from "./components/ProjectGallery";
-import armCover from "./assets/Screenshot 2026-03-06 at 5.57.37 AM.png";
+
 const demoData = [
   {
     id: "arm-ecommerce",
