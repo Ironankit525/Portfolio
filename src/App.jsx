@@ -283,8 +283,8 @@ const demoData = [
     href: "#/project/arm-ecommerce",
     image: armCover,
     tags: ["React", "Node.js", "Full-Stack", "E-Commerce"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com"
+    githubUrl: "https://github.com/Ironankit525/ARM.git",
+    liveUrl: "https://armgear.vercel.app"
   },
   {
     id: "ai-workflow",
@@ -293,8 +293,7 @@ const demoData = [
     href: "#",
     image: "https://images.unsplash.com/photo-1551250928-e4a05afaed1e?auto=format&fit=crop&q=80&w=600",
     tags: ["n8n", "AI", "Automation", "Workflow"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com"
+    githubUrl: "https://github.com/Ironankit525"
   },
   {
     id: "open-source",
@@ -303,8 +302,7 @@ const demoData = [
     href: "#",
     image: "https://images.unsplash.com/photo-1536735561749-fc87494598cb?auto=format&fit=crop&q=80&w=600",
     tags: ["Open Source", "Architecture", "Performance"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com"
+    githubUrl: "https://github.com/Ironankit525"
   },
 ];
 export default function App() {

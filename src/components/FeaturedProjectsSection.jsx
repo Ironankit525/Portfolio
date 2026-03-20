@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, forwardRef, createContext, useContext } from "react";
-import { ArrowLeft, ArrowRight, Github } from "lucide-react";
+import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import useEmblaCarousel from "embla-carousel-react";
@@ -158,8 +158,9 @@ export default function FeaturedProjectsSection({
         return () => { carouselApi.off("select", updateSelection); };
     }, [carouselApi]);
     return (
-        <section id="projects" className="py-20 dark:bg-zinc-900 bg-white text-gray-900 dark:text-gray-100">
-            <div className="container mx-auto px-4 max-w-6xl">
+        <section id="projects" className="relative py-20 dark:bg-zinc-900 bg-white text-gray-900 dark:text-gray-100">
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50 to-transparent dark:from-zinc-950 dark:to-transparent z-10 pointer-events-none" />
+            <div className="relative z-20 container mx-auto px-4 max-w-6xl">
                 <div className="mb-8 flex items-end justify-between md:mb-14">
                     <div className="flex flex-col gap-4">
                         <div className="text-[#C3E41D] text-sm font-semibold uppercase flex items-center gap-2">
@@ -232,6 +233,11 @@ export default function FeaturedProjectsSection({
                                                 </div>
                                             )}
                                             <div className="flex flex-col sm:flex-row items-center gap-3 mt-auto">
+                                                {item.liveUrl && (
+                                                    <a href={item.liveUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex flex-1 items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-[#C3E41D] bg-[#C3E41D] text-black hover:bg-[#a3bd18] transition-colors">
+                                                        <ExternalLink className="w-4 h-4" /> Visit Site
+                                                    </a>
+                                                )}
                                                 <a href={item.githubUrl || "#"} className="w-full sm:w-auto flex flex-1 items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-[#C3E41D]/50 bg-[#C3E41D]/10 text-[#a3bd18] dark:text-[#C3E41D] dark:hover:bg-[#C3E41D]/20 hover:bg-[#C3E41D]/20 transition-colors">
                                                     <Github className="w-4 h-4" /> Github
                                                 </a>

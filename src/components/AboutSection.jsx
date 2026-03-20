@@ -409,6 +409,7 @@ export default function AboutSection1() {
                     />
                 </TimelineContent>
             </div>
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent dark:from-zinc-900 dark:to-transparent z-20 pointer-events-none" />
         </section>
     );
 }
