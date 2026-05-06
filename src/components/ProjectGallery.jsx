@@ -10,9 +10,6 @@ import img7 from '../assets/Screenshot 2026-03-06 at 5.57.48 AM.webp';
 import img8 from '../assets/Screenshot 2026-03-06 at 5.57.58 AM.webp';
 const images = [img1, img2, img3, img4, img5, img6, img7, img8];
 export default function ProjectGallery() {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
     return (
         <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white p-6 sm:p-10 font-sans transition-colors">
             <div className="max-w-7xl mx-auto">
@@ -37,9 +34,8 @@ export default function ProjectGallery() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
                     {images.map((src, index) => (
-                        <div key={index} className="rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900 aspect-video group relative">
-                            <img src={src} alt={`Project screenshot ${index + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none" />
+                        <div key={index} className="rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900 aspect-video relative">
+                            <img src={src} alt={`Project screenshot ${index + 1}`} className="w-full h-full object-cover" />
                         </div>
                     ))}
                 </div>
