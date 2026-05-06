@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import LiquidEffectAnimation from "./components/LiquidEffectAnimation";
 import profilePic from "./assets/unwatermarked_Gemini_Generated_Image_y3h8v4y3h8v4y3h8.webp";
 import armCover from "./assets/Screenshot 2026-03-06 at 5.57.37 AM.webp";
+import calCover from "./assets/Screenshot 2026-05-06 at 11.54.29 PM.png";
+import markerCover from "./assets/ChatGPT Image May 7, 2026 at 12_19_54 AM.png";
 const Button = React.forwardRef(({ className = "", children, ...props }, ref) => {
   return (
     <button
@@ -274,6 +276,8 @@ import FeaturedProjectsSection from "./components/FeaturedProjectsSection";
 import IntegrationSection from "./components/IntegrationSection";
 import ContactSection from "./components/ContactSection";
 import ProjectGallery from "./components/ProjectGallery";
+import CalendarGallery from "./components/CalendarGallery";
+import MarkerAppGallery from "./components/MarkerAppGallery";
 
 const demoData = [
   {
@@ -287,13 +291,23 @@ const demoData = [
     liveUrl: "https://armgear.vercel.app"
   },
   {
-    id: "ai-workflow",
-    title: "AI Workflow Automation System",
-    description: "Automated content generation pipeline using n8n and Google Sheets for structured voice and image prompt generation. Focused on scalable automation design.",
-    href: "#",
-    image: "https://images.unsplash.com/photo-1551250928-e4a05afaed1e?auto=format&fit=crop&q=80&w=600",
-    tags: ["n8n", "AI", "Automation", "Workflow"],
-    githubUrl: "https://github.com/Ironankit525"
+    id: "calendar-component",
+    title: "Calendar Component",
+    description: "A fully functional interactive calendar component designed for both mobile and desktop experiences.",
+    href: "#/project/calendar",
+    image: calCover,
+    tags: ["React", "Calendar", "UI/UX", "Mobile-Responsive"],
+    githubUrl: "https://github.com/Ironankit525/Calander_component.git",
+    liveUrl: "https://calander-component.vercel.app"
+  },
+  {
+    id: "marker-app",
+    title: "Custom Marker Detection App",
+    description: "Android native application built with React Native that uses device camera to detect, isolate, and extract custom visual markers.",
+    href: "#/project/marker-app",
+    image: markerCover,
+    tags: ["React Native", "Android", "Computer Vision"],
+    githubUrl: "https://github.com/Ironankit525/Marker-detection-app.git"
   },
   {
     id: "open-source",
@@ -307,16 +321,41 @@ const demoData = [
 ];
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState(window.location.hash);
+  
   useEffect(() => {
     const handleHashChange = () => setCurrentRoute(window.location.hash);
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
-  if (currentRoute === "#/project/arm-ecommerce") {
-    return <ProjectGallery />;
-  }
+
+  useEffect(() => {
+    if (currentRoute.startsWith("#/project/")) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [currentRoute]);
+
   return (
     <>
+      {currentRoute === "#/project/arm-ecommerce" && (
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-black overflow-y-auto">
+          <ProjectGallery />
+        </div>
+      )}
+      {currentRoute === "#/project/calendar" && (
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-black overflow-y-auto">
+          <CalendarGallery />
+        </div>
+      )}
+      {currentRoute === "#/project/marker-app" && (
+        <div className="fixed inset-0 z-[100] bg-white dark:bg-black overflow-y-auto">
+          <MarkerAppGallery />
+        </div>
+      )}
       <style
         dangerouslySetInnerHTML={{
           __html: `
