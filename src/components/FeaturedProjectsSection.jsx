@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useCallback, forwardRef, createContext, useContext } from "react";
+import React, { useEffect, useState, useCallback, forwardRef, createContext, useContext, useRef } from "react";
 import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
+import AutoScroll from "embla-carousel-auto-scroll";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import useEmblaCarousel from "embla-carousel-react";
@@ -143,6 +145,10 @@ export default function FeaturedProjectsSection({
     items = [],
 }) {
     const [carouselApi, setCarouselApi] = useState();
+    const autoScrollPlugin = useRef(
+        AutoScroll({ playOnInit: false, speed: 1.5, stopOnInteraction: true, stopOnMouseEnter: false, stopOnFocusIn: false })
+    );
+    const wheelGestures = useRef(WheelGesturesPlugin());
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -158,7 +164,10 @@ export default function FeaturedProjectsSection({
         return () => { carouselApi.off("select", updateSelection); };
     }, [carouselApi]);
     return (
-        <section id="projects" className="relative py-20 dark:bg-zinc-900 bg-white text-gray-900 dark:text-gray-100">
+        <section id="projects" className="relative py-20 dark:bg-zinc-900 bg-white text-gray-900 dark:text-gray-100"
+            onMouseEnter={() => autoScrollPlugin.current.play()}
+            onMouseLeave={() => autoScrollPlugin.current.stop()}
+        >
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50 to-transparent dark:from-zinc-950 dark:to-transparent z-10 pointer-events-none" />
             <div className="relative z-20 container mx-auto px-4 max-w-6xl">
                 <div className="mb-8 flex items-end justify-between md:mb-14">
@@ -195,20 +204,22 @@ export default function FeaturedProjectsSection({
                 <div className="w-full">
                     <Carousel
                         setApi={setCarouselApi}
+                        plugins={[autoScrollPlugin.current, wheelGestures.current]}
                         opts={{
                             align: "start",
-                            loop: false,
+                            loop: true,
+                            dragFree: true,
                         }}
                         className="w-full"
                     >
                         <CarouselContent className="ml-0">
-                            {items.map((item) => (
+                            {[...items, ...items, ...items].map((item, index) => (
                                 <CarouselItem
-                                    key={item.id}
+                                    key={`${item.id}-${index}`}
                                     className="basis-full sm:basis-1/2 md:basis-1/3 pl-4"
                                 >
                                     <div className="group flex flex-col h-full rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#121212] overflow-hidden transition-all hover:shadow-xl">
-                                        <a href={item.href} target={item.href !== "#" ? "_blank" : "_self"} rel="noopener noreferrer" className="block relative w-full aspect-video overflow-hidden border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 cursor-pointer">
+                                        <a href={item.href} target={item.href.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" className="block relative w-full aspect-video overflow-hidden border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 cursor-pointer">
                                             <img
                                                 src={item.image}
                                                 alt={item.title}
@@ -256,7 +267,7 @@ export default function FeaturedProjectsSection({
                                     key={index}
                                     className={cn(
                                         "h-2 rounded-full transition-all duration-300",
-                                        currentSlide === index ? "w-8 bg-[#C3E41D]" : "w-2 bg-[#C3E41D]/20"
+                                        (currentSlide % items.length) === index ? "w-8 bg-[#C3E41D]" : "w-2 bg-[#C3E41D]/20"
                                     )}
                                     onClick={() => carouselApi?.scrollTo(index)}
                                     aria-label={`Go to slide ${index + 1}`}
