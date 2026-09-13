@@ -1,282 +1,74 @@
-import React, { useEffect, useState, useCallback, forwardRef, createContext, useContext, useRef } from "react";
-import { ArrowLeft, ArrowRight, Github, ExternalLink } from "lucide-react";
-import AutoScroll from "embla-carousel-auto-scroll";
-import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
-import { Slot } from "@radix-ui/react-slot";
-import { cva } from "class-variance-authority";
-import useEmblaCarousel from "embla-carousel-react";
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-function cn(...inputs) {
-    return twMerge(clsx(inputs));
-}
-const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-    {
-        variants: {
-            variant: {
-                default: "bg-primary text-primary-foreground hover:bg-primary/90",
-                destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-                outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-                secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-                ghost: "hover:bg-accent hover:text-accent-foreground",
-                link: "text-primary underline-offset-4 hover:underline",
-            },
-            size: {
-                default: "h-10 px-4 py-2",
-                sm: "h-9 rounded-md px-3",
-                lg: "h-11 rounded-md px-8",
-                icon: "h-10 w-10",
-            },
-        },
-        defaultVariants: {
-            variant: "default",
-            size: "default",
-        },
-    }
-);
-const Button = forwardRef(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
-        const Comp = asChild ? Slot : "button";
-        return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
-    }
-);
-Button.displayName = "Button";
-const CarouselContext = createContext(null);
-function useCarousel() {
-    const context = useContext(CarouselContext);
-    if (!context) throw new Error("useCarousel must be used within a <Carousel />");
-    return context;
-}
-const Carousel = forwardRef(
-    ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }, ref) => {
-        const [carouselRef, api] = useEmblaCarousel(
-            { ...opts, axis: orientation === "horizontal" ? "x" : "y" },
-            plugins
-        );
-        const [canScrollPrev, setCanScrollPrev] = useState(false);
-        const [canScrollNext, setCanScrollNext] = useState(false);
-        const onSelect = useCallback((api) => {
-            if (!api) return;
-            setCanScrollPrev(api.canScrollPrev());
-            setCanScrollNext(api.canScrollNext());
-        }, []);
-        const scrollPrev = useCallback(() => api?.scrollPrev(), [api]);
-        const scrollNext = useCallback(() => api?.scrollNext(), [api]);
-        useEffect(() => {
-            if (!api || !setApi) return;
-            setApi(api);
-        }, [api, setApi]);
-        useEffect(() => {
-            if (!api) return;
-            onSelect(api);
-            api.on("reInit", onSelect);
-            api.on("select", onSelect);
-            return () => { api?.off("select", onSelect); };
-        }, [api, onSelect]);
-        return (
-            <CarouselContext.Provider
-                value={{
-                    carouselRef,
-                    api,
-                    opts,
-                    orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
-                    scrollPrev,
-                    scrollNext,
-                    canScrollPrev,
-                    canScrollNext,
-                }}
-            >
-                <div
-                    ref={ref}
-                    className={cn("relative", className)}
-                    role="region"
-                    aria-roledescription="carousel"
-                    {...props}
-                >
-                    {children}
-                </div>
-            </CarouselContext.Provider>
-        );
-    }
-);
-Carousel.displayName = "Carousel";
-const CarouselContent = forwardRef(
-    ({ className, ...props }, ref) => {
-        const { carouselRef, orientation } = useCarousel();
-        return (
-            <div ref={carouselRef} className="overflow-hidden">
-                <div
-                    ref={ref}
-                    className={cn(
-                        "flex",
-                        orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-                        className
-                    )}
-                    {...props}
-                />
-            </div>
-        );
-    }
-);
-CarouselContent.displayName = "CarouselContent";
-const CarouselItem = forwardRef(
-    ({ className, ...props }, ref) => {
-        const { orientation } = useCarousel();
-        return (
-            <div
-                ref={ref}
-                role="group"
-                aria-roledescription="slide"
-                className={cn(
-                    "min-w-0 shrink-0 grow-0 basis-full",
-                    orientation === "horizontal" ? "pl-4" : "pt-4",
-                    className
-                )}
-                {...props}
-            />
-        );
-    }
-);
-CarouselItem.displayName = "CarouselItem";
-export default function FeaturedProjectsSection({
-    title = "Featured Projects",
-    description = "A selection of case studies highlighting our work with modern web technologies and frameworks.",
-    items = [],
-}) {
-    const [carouselApi, setCarouselApi] = useState();
-    const autoScrollPlugin = useRef(
-        AutoScroll({ playOnInit: false, speed: 1.5, stopOnInteraction: true, stopOnMouseEnter: false, stopOnFocusIn: false })
-    );
-    const wheelGestures = useRef(WheelGesturesPlugin());
-    const [canScrollPrev, setCanScrollPrev] = useState(false);
-    const [canScrollNext, setCanScrollNext] = useState(false);
-    const [currentSlide, setCurrentSlide] = useState(0);
-    useEffect(() => {
-        if (!carouselApi) return;
-        const updateSelection = () => {
-            setCanScrollPrev(carouselApi.canScrollPrev());
-            setCanScrollNext(carouselApi.canScrollNext());
-            setCurrentSlide(carouselApi.selectedScrollSnap());
-        };
-        updateSelection();
-        carouselApi.on("select", updateSelection);
-        return () => { carouselApi.off("select", updateSelection); };
-    }, [carouselApi]);
+import { useState } from 'react';
+import { ArrowUpRight, Github } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { filterProjects, projectCategories, projectHref } from '../data/projectModel';
+import Reveal from './Reveal';
+
+function ProjectCard({ project, featured, index }) {
+    const reducedMotion = useReducedMotion();
     return (
-        <section id="projects" className="relative py-20 dark:bg-zinc-900 bg-white text-gray-900 dark:text-gray-100"
-            onMouseEnter={() => autoScrollPlugin.current.play()}
-            onMouseLeave={() => autoScrollPlugin.current.stop()}
+        <motion.article
+            layout={!reducedMotion}
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: Math.min(index * 0.05, 0.2) }}
+            className={`project-card studio-panel${featured ? ' project-featured' : ''}`}
         >
-            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-gray-50 to-transparent dark:from-zinc-950 dark:to-transparent z-10 pointer-events-none" />
-            <div className="relative z-20 container mx-auto px-4 max-w-6xl">
-                <div className="mb-8 flex items-end justify-between md:mb-14">
-                    <div className="flex flex-col gap-4">
-                        <div className="text-[#C3E41D] text-sm font-semibold uppercase flex items-center gap-2">
-                            Projects
-                        </div>
-                        <h2 className="text-3xl font-bold md:text-4xl lg:text-5xl tracking-tight">
-                            {title}
-                        </h2>
-                        <p className="max-w-lg text-gray-600 dark:text-gray-400">{description}</p>
-                    </div>
-                    <div className="hidden shrink-0 gap-2 md:flex">
-                        <Button
-                            size="icon"
-                            variant="outline"
-                            onClick={() => carouselApi?.scrollPrev()}
-                            disabled={!canScrollPrev}
-                            className="rounded-full border-gray-300 dark:border-gray-700 bg-transparent hover:bg-[#C3E41D]/20 hover:text-[#a3bd18] dark:hover:bg-[#C3E41D]/20 dark:hover:text-[#C3E41D] text-gray-700 dark:text-gray-300 transition-colors"
-                        >
-                            <ArrowLeft className="size-5" />
-                        </Button>
-                        <Button
-                            size="icon"
-                            variant="outline"
-                            onClick={() => carouselApi?.scrollNext()}
-                            disabled={!canScrollNext}
-                            className="rounded-full border-gray-300 dark:border-gray-700 bg-transparent hover:bg-[#C3E41D]/20 hover:text-[#a3bd18] dark:hover:bg-[#C3E41D]/20 dark:hover:text-[#C3E41D] text-gray-700 dark:text-gray-300 transition-colors"
-                        >
-                            <ArrowRight className="size-5" />
-                        </Button>
-                    </div>
+            <a href={projectHref(project)} className="project-main" aria-label={`View ${project.title}`}>
+                <div className="project-image">
+                    <img src={project.image} alt={project.imageAlt || project.title} loading="lazy" decoding="async" />
+                    <span className="project-image-action">Explore project <ArrowUpRight size={16} /></span>
                 </div>
-                <div className="w-full">
-                    <Carousel
-                        setApi={setCarouselApi}
-                        plugins={[autoScrollPlugin.current, wheelGestures.current]}
-                        opts={{
-                            align: "start",
-                            loop: true,
-                            dragFree: true,
-                        }}
-                        className="w-full"
-                    >
-                        <CarouselContent className="ml-0">
-                            {[...items, ...items, ...items].map((item, index) => (
-                                <CarouselItem
-                                    key={`${item.id}-${index}`}
-                                    className="basis-full sm:basis-1/2 md:basis-1/3 pl-4"
-                                >
-                                    <div className="group flex flex-col h-full rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#121212] overflow-hidden transition-all hover:shadow-xl">
-                                        <a href={item.href} target={item.href.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer" className="block relative w-full aspect-video overflow-hidden border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 cursor-pointer">
-                                            <img
-                                                src={item.image}
-                                                alt={item.title}
-                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                            />
-                                            {item.href !== "#" && (
-                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                                    <span className="opacity-0 group-hover:opacity-100 text-white font-medium bg-black/60 px-4 py-2 rounded-full backdrop-blur-md transition-opacity duration-300">View Project</span>
-                                                </div>
-                                            )}
-                                        </a>
-                                        <div className="p-6 flex flex-col flex-grow">
-                                            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">{item.title}</h3>
-                                            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6 flex-grow">{item.description}</p>
-                                            {item.tags && item.tags.length > 0 && (
-                                                <div className="flex flex-wrap gap-2 mb-6">
-                                                    {item.tags.map((tag, i) => (
-                                                        <span key={i} className="px-3 py-1.5 text-xs font-medium rounded-full bg-zinc-100 dark:bg-[#202020] text-zinc-800 dark:text-zinc-300">
-                                                            {tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            <div className="flex flex-col sm:flex-row items-center gap-3 mt-auto">
-                                                {item.liveUrl && (
-                                                    <a href={item.liveUrl} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex flex-1 items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-[#C3E41D] bg-[#C3E41D] text-black hover:bg-[#a3bd18] transition-colors">
-                                                        <ExternalLink className="w-4 h-4" /> Visit Site
-                                                    </a>
-                                                )}
-                                                <a href={item.githubUrl || "#"} className="w-full sm:w-auto flex flex-1 items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-[#C3E41D]/50 bg-[#C3E41D]/10 text-[#a3bd18] dark:text-[#C3E41D] dark:hover:bg-[#C3E41D]/20 hover:bg-[#C3E41D]/20 transition-colors">
-                                                    <Github className="w-4 h-4" /> Github
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                    { }
-                    <div className="mt-8 flex items-center justify-center gap-4">
-                        <div className="flex gap-2">
-                            {items.map((_, index) => (
-                                <button
-                                    key={index}
-                                    className={cn(
-                                        "h-2 rounded-full transition-all duration-300",
-                                        (currentSlide % items.length) === index ? "w-8 bg-[#C3E41D]" : "w-2 bg-[#C3E41D]/20"
-                                    )}
-                                    onClick={() => carouselApi?.scrollTo(index)}
-                                    aria-label={`Go to slide ${index + 1}`}
-                                />
-                            ))}
-                        </div>
+                <div className="project-heading">
+                    <div>
+                        <p className="project-category">{project.category || 'PROJECT'}{featured && <span> / FEATURED</span>}</p>
+                        <h3>{project.title}</h3>
                     </div>
+                    <span className="circle-arrow" aria-hidden="true"><ArrowUpRight size={22} /></span>
+                </div>
+                <p className="project-description">{project.description}</p>
+            </a>
+            <div className="project-bottom">
+                <div className="tag-list">{project.tags?.map((tag) => <span key={tag}>{tag}</span>)}</div>
+                <div className="project-links">
+                    {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" aria-label={`Live site: ${project.title}`}>Live site <ArrowUpRight size={14} /></a>}
+                    {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" aria-label={`Source code: ${project.title}`}><Github size={15} /> Code</a>}
                 </div>
             </div>
+        </motion.article>
+    );
+}
+
+export default function FeaturedProjectsSection({ items = [] }) {
+    const [category, setCategory] = useState(null);
+    const categories = projectCategories(items);
+    const activeCategory = categories.includes(category) ? category : null;
+    const visibleProjects = filterProjects(items, activeCategory);
+    return (
+        <section id="projects" className="studio-section" aria-labelledby="projects-title">
+            <Reveal>
+                <p className="section-kicker"><span>02</span> / SELECTED WORK</p>
+                <div className="section-heading">
+                    <div>
+                        <h2 id="projects-title">Ideas, made <em>real.</em></h2>
+                        <p>A few things I’ve built. And what I learned along the way.</p>
+                    </div>
+                    {categories.length > 1 && <div className="filter-list" role="group" aria-label="Filter projects">
+                        <button type="button" aria-pressed={activeCategory === null} onClick={() => setCategory(null)}>All work <span>{items.length}</span></button>
+                        {categories.map((item) => <button type="button" key={item} aria-pressed={activeCategory === item} onClick={() => setCategory(item)}>{item}</button>)}
+                    </div>}
+                </div>
+                <p className="sr-only" role="status">{visibleProjects.length} projects shown{activeCategory ? ` in ${activeCategory}` : ''}.</p>
+                <div className={`project-grid${activeCategory !== null || visibleProjects.length < 3 ? ' project-grid-regular' : ''}`}>
+                    {visibleProjects.map((project, index) => <ProjectCard key={project.id} project={project} index={index} featured={activeCategory === null && visibleProjects.length >= 3 && index === 0} />)}
+                </div>
+                {visibleProjects.length === 0 && <p className="empty-projects">New projects are on the way. In the meantime, explore my work on GitHub.</p>}
+                <a className="open-source-strip studio-panel" href="https://github.com/Ironankit525" target="_blank" rel="noreferrer">
+                    <span className="open-source-icon"><Github size={28} /></span>
+                    <span className="open-source-copy"><strong>Built to share.</strong><span>Open-source contributions, experiments, and work in progress.</span></span>
+                    <span className="text-link">Explore my GitHub <ArrowUpRight size={18} /></span>
+                </a>
+            </Reveal>
         </section>
     );
 }

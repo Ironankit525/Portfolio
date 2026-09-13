@@ -1,56 +1,82 @@
-# 🚀 Developer Portfolio
+# Ankit Kumar — Portfolio
 
-A modern, responsive developer portfolio built to showcase projects, skills, and open-source contributions — featuring a premium UI with dynamic animations, dark/light mode, and a fully responsive layout.
+A React portfolio with a black, white, and lime theme, responsive project cards,
+project galleries, filterable skills, reduced-motion support, and a contact form.
 
-## ✨ Features
+## Run locally
 
-- **Premium Design** — Glassmorphism effects, smooth gradients, and a carefully crafted visual aesthetic
-- **Dynamic Animations** — Smooth scroll animations and micro-interactions powered by Framer Motion
-- **Project Showcase** — A dedicated section to highlight featured projects with rich detail
-- **Interactive UI** — Custom components built with Radix UI and Tailwind CSS
-- **Open Source Focus** — GitHub integration to highlight contributions and community work
-
-## 🛠️ Tech Stack
-
-| Category | Technology |
-| :--- | :--- |
-| **Framework** | React 19 + TypeScript |
-| **Build Tool** | Vite |
-| **Styling** | Tailwind CSS |
-| **Animations** | Framer Motion |
-| **UI / Icons** | Radix UI, Lucide React |
-| **Carousel** | Embla Carousel |
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js v18+
-- npm
-
-### Installation
-
-```bash
-# 1. Clone the repository
-git clone <repository-url>
-
-# 2. Navigate into the project
-cd "Portfolio@"
-
-# 3. Install dependencies
+```sh
 npm install
-
-# 4. Start the dev server
 npm run dev
 ```
 
-Then open `http://localhost:5173` in your browser.
+Build for deployment with `npm run build`. Vite writes the static site to `dist/`.
+The existing deployment setup does not need to change.
 
-## 📂 Project Structure
+## Add a project
 
-```text
-src/
-├── components/       # Reusable sections (About, Contact, Projects, etc.)
-├── assets/           # Images and static media
-theme.jsx             # Theme config and dark/light toggle
-tailwind.config.js    # Tailwind configuration
+**Edit one file: `src/data/projects.js`.** Add your image to `src/assets/`, import
+it at the top of the data file, then add an object to the `projects` array:
+
+```js
+import myProjectCover from '../assets/my-project.webp';
+
+// Add this object inside the exported projects array:
+{
+    id: 'my-project',
+    title: 'My Project',
+    category: 'Web',
+    description: 'What the project does and the problem it solves.',
+    image: myProjectCover,
+    imageAlt: 'A descriptive caption for the project preview',
+    tags: ['React', 'Node.js'],
+    liveUrl: 'https://example.com',
+    githubUrl: 'https://github.com/your-name/my-project',
+    gallery: [myProjectCover],
+},
 ```
+
+- Give each project a **unique, stable `id`**, preferably lowercase with hyphens.
+- Array order controls display order. With at least three projects, the first
+  gets a larger featured card; all additional projects flow into the grid.
+- `category` creates the project filters automatically. Reuse `Web` or `Mobile`,
+  or introduce a new category such as `AI` without editing the UI.
+- `imageAlt` and `tags` are optional, but useful for accessibility and context.
+- `liveUrl` and `githubUrl` are optional. Missing links are simply hidden.
+- `gallery` is optional. Without it, the detail view displays the cover image.
+  Import additional images and list them here to create a screenshot gallery.
+- Use `galleryLayout: 'portrait'` for mobile screenshots.
+- Project links are generated automatically as `#/project/my-project`. No route
+  registration or new React component is needed. Optional `slug` preserves a
+  different existing URL; the `id` URL also works.
+- The open-source strip is independent of project records and links to GitHub.
+
+You can also place images in `public/projects/` and use a string such as
+`image: '/projects/my-project.webp'` instead of an import.
+
+## Where content lives
+
+| Content | File |
+| --- | --- |
+| Projects, links, screenshots | `src/data/projects.js` |
+| About copy | `src/components/AboutSection.jsx` |
+| Skills and currently exploring | `src/components/IntegrationSection.jsx` |
+| Contact copy and email | `src/components/ContactSection.jsx` |
+| Landing screen and navigation | `src/App.jsx` |
+| Theme, responsive layouts, hover states | `src/index.css` |
+
+Project cards and routing share the helpers in `src/data/projectModel.js`.
+`ProjectDetail.jsx` provides the reusable gallery dialog, keyboard dismissal,
+and focus containment. The older standalone gallery files are retained for
+reference but are no longer used by the app.
+
+## Contact form
+
+The form retains the existing Formspree endpoint in `ContactSection.jsx`.
+It validates required fields, disables repeat submission while sending, and
+shows success or failure feedback. Test submissions send real email.
+
+## Stack
+
+React 19 (JavaScript / JSX), Vite, Tailwind CSS, Framer Motion, Lucide,
+and React Icons. Existing dependencies and the package lock are preserved.
