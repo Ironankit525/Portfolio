@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
 import img1 from '../assets/Screenshot 2026-05-06 at 11.54.29 PM.png';

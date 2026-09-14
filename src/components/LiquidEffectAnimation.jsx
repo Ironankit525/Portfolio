@@ -8,7 +8,7 @@ export default function LiquidEffectAnimation({
 }) {
     const canvasRef = useRef(null);
     useEffect(() => {
-        if (!canvasRef.current) return;
+        if (!canvasRef.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         const scriptId = "liquid-bg-script-module";
         let script = document.getElementById(scriptId);
         if (!script) {
