@@ -24,6 +24,8 @@ export const projects = [
         category: 'Web',
         description: 'A full-stack e-commerce platform with product management, authentication, and a scalable backend.',
         image: armCover,
+        previewImage: arm1,
+        previewImageAlt: 'ARM Gear storefront with the Master the Strings guitar collection',
         imageAlt: 'ARM Gear dashboard with revenue, sales, and inventory analytics',
         tags: ['React', 'Node.js', 'Full-stack'],
         githubUrl: 'https://github.com/Ironankit525/ARM.git',

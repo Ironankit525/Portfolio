@@ -6,6 +6,7 @@ import Reveal from './Reveal';
 
 function ProjectCard({ project, featured, index }) {
     const reducedMotion = useReducedMotion();
+    const supportingImage = featured && (project.previewImage || project.gallery?.find((image) => image !== project.image));
     return (
         <motion.article
             layout={!reducedMotion}
@@ -15,8 +16,15 @@ function ProjectCard({ project, featured, index }) {
             className={`project-card studio-panel${featured ? ' project-featured' : ''}`}
         >
             <a href={projectHref(project)} className="project-main" aria-label={`View ${project.title}`}>
-                <div className="project-image">
-                    <img src={project.image} alt={project.imageAlt || project.title} loading="lazy" decoding="async" />
+                <div className={`project-image${supportingImage ? ' project-image-pair' : ''}`}>
+                    {supportingImage ? <>
+                        <div className="project-preview">
+                            <img src={supportingImage} alt={project.previewImageAlt || `${project.title} — additional screenshot`} loading="lazy" decoding="async" />
+                        </div>
+                        <div className="project-preview">
+                            <img src={project.image} alt={project.imageAlt || project.title} loading="lazy" decoding="async" />
+                        </div>
+                    </> : <img src={project.image} alt={project.imageAlt || project.title} loading="lazy" decoding="async" />}
                     <span className="project-image-action">Explore project <ArrowUpRight size={16} /></span>
                 </div>
                 <div className="project-heading">

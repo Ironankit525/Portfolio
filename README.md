@@ -45,6 +45,8 @@ import myProjectCover from '../assets/my-project.webp';
 - `liveUrl` and `githubUrl` are optional. Missing links are simply hidden.
 - `gallery` is optional. Without it, the detail view displays the cover image.
   Import additional images and list them here to create a screenshot gallery.
+- The featured card automatically shows a second screenshot from its gallery.
+  Set optional `previewImage` and `previewImageAlt` to choose that image explicitly.
 - Use `galleryLayout: 'portrait'` for mobile screenshots.
 - Project links are generated automatically as `#/project/my-project`. No route
   registration or new React component is needed. Optional `slug` preserves a

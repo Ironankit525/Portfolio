@@ -109,7 +109,7 @@ function PortfolioHero() {
         <nav aria-label="Main navigation" className="flex items-center justify-between max-w-screen-2xl mx-auto font-mono">
           { }
           <div className="flex items-center text-gray-900 dark:text-white text-[18px] font-medium">
-            <span className="tracking-tight">Ankit</span>
+            <span className="tracking-tight text-[#C3E41D]">Ankit</span>
           </div>
           { }
           <div className="hidden md:flex items-center gap-12 text-[14px] text-gray-700 dark:text-gray-300">

@@ -97,9 +97,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .project-main { display: block; }
 .project-featured .project-main { display: flex; flex-direction: column; flex: 1; }
 .project-image { position: relative; overflow: hidden; border-radius: 14px; background: var(--studio-inset); border: 1px solid var(--studio-line); aspect-ratio: 2.4; }
-.project-image img { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(1); transition: transform .65s cubic-bezier(.2,.65,.3,1); }
+.project-image img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .65s cubic-bezier(.2,.65,.3,1); }
 .project-featured .project-image { aspect-ratio: auto; flex: 1; min-height: 340px; }
-.project-featured .project-image img { position: absolute; inset: 0; object-fit: contain; background: #f4f4f4; }
+.project-featured .project-image img { position: absolute; inset: 0; object-fit: cover; }
+.project-featured .project-image-pair { display: grid; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 12px; border: 0; background: transparent; }
+.project-preview { position: relative; min-height: 0; overflow: hidden; border: 1px solid var(--studio-line); border-radius: 14px; background: var(--studio-inset); }
 .project-card:hover .project-image img { transform: scale(1.025); }
 .project-image-action { position: absolute; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 10px; border-radius: 100px; background: #111; color: #fafafa; padding: 10px 14px; font-size: 12px; opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s; }
 .project-card:hover .project-image-action, .project-main:focus-visible .project-image-action { opacity: 1; transform: translateY(0); }
@@ -215,6 +217,8 @@ fieldset:disabled button { cursor: wait; }
     .project-featured .project-image { aspect-ratio: 1.9; min-height: 0; }
     .project-image { aspect-ratio: 1.65; }
     .project-featured .project-image img { object-fit: cover; }
+    .project-featured .project-image-pair { aspect-ratio: auto; flex: none; grid-template-rows: auto auto; }
+    .project-preview { aspect-ratio: 16 / 9; }
     .project-card h3 { font-size: 23px; }
     .project-heading { align-items: flex-start; }
     .circle-arrow { flex-basis: 36px; height: 36px; }
@@ -231,6 +235,7 @@ fieldset:disabled button { cursor: wait; }
     .project-featured { grid-column: auto; }
     .project-card { padding: 12px; }
     .project-featured .project-image, .project-image { aspect-ratio: 1.65; }
+    .project-featured .project-image-pair { aspect-ratio: auto; }
     .project-card h3, .project-featured h3 { font-size: 24px; }
     .project-bottom { margin-bottom: 8px; }
     .project-image-action { display: none; }
