@@ -13,6 +13,8 @@ import calendar3 from '../assets/Screenshot 2026-05-06 at 11.55.43 PM.png';
 import marker1 from '../assets/Screenshot_20260507_001110.jpg';
 import marker2 from '../assets/Screenshot_20260507_001040.jpg';
 import marker3 from '../assets/Screenshot_20260507_001033.jpg';
+import clipperCover from '../assets/clipper-dashboard.png';
+import clipper2 from '../assets/clipper-queue.png';
 
 // Add a record here. Cards, filters, and detail galleries update automatically.
 // Order controls display order; the first project is the larger featured card.
@@ -33,17 +35,17 @@ export const projects = [
         gallery: [arm1, arm2, arm3, arm4, arm5, armCover, arm7, arm8],
     },
     {
-        id: 'calendar-component',
-        slug: 'calendar', // Keeps existing shared project links working.
-        title: 'Calendar Component',
-        category: 'Web',
-        description: 'An interactive calendar with a thoughtful interface for desktop and mobile.',
-        image: calendarCover,
-        imageAlt: 'Calendar component showing a monthly view beside a photograph of flowers',
-        tags: ['React', 'UI/UX', 'Responsive'],
-        githubUrl: 'https://github.com/Ironankit525/Calander_component.git',
-        liveUrl: 'https://calander-component.vercel.app',
-        gallery: [calendarCover, calendar2, calendar3],
+        id: 'clipper',
+        title: 'Clipper — Short-Form Video Pipeline',
+        category: 'AI',
+        description: 'An end-to-end pipeline that turns a 3-hour podcast into ranked, captioned 9:16 shorts, with speaker-tracking reframing and automated publishing to YouTube.',
+        image: clipperCover,
+        previewImage: clipper2,
+        previewImageAlt: 'Clipper review queue listing ranked clips with scores, durations, and post controls',
+        imageAlt: 'Clipper dashboard with the clip-making form, previous runs, and YouTube Shorts queue counters',
+        tags: ['Python', 'FastAPI', 'FFmpeg', 'OpenCV', 'LLM APIs', 'n8n'],
+        githubUrl: 'https://github.com/Ironankit525/clipper',
+        gallery: [clipperCover, clipper2],
     },
     {
         id: 'marker-app',
@@ -56,5 +58,18 @@ export const projects = [
         githubUrl: 'https://github.com/Ironankit525/Marker-detection-app.git',
         gallery: [marker1, marker2, marker3],
         galleryLayout: 'portrait',
+    },
+    {
+        id: 'calendar-component',
+        slug: 'calendar', // Keeps existing shared project links working.
+        title: 'Calendar Component',
+        category: 'Web',
+        description: 'An interactive calendar with a thoughtful interface for desktop and mobile.',
+        image: calendarCover,
+        imageAlt: 'Calendar component showing a monthly view beside a photograph of flowers',
+        tags: ['React', 'UI/UX', 'Responsive'],
+        githubUrl: 'https://github.com/Ironankit525/Calander_component.git',
+        liveUrl: 'https://calander-component.vercel.app',
+        gallery: [calendarCover, calendar2, calendar3],
     },
 ];
