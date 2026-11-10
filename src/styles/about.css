@@ -1,0 +1,163 @@
+/* The bio on the left, education and "what I'm looking for" stacked on the right. */
+.about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+}
+
+.about-main {
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(26px, 4vw, 52px);
+}
+
+.about-copy {
+    max-width: 54ch;
+    margin: 28px 0;
+    color: var(--muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+}
+
+.about-copy p + p {
+    margin-top: 14px;
+}
+
+.about-copy p:first-child {
+    color: var(--ink);
+    font-size: 1.1875rem;
+    line-height: 1.6;
+}
+
+/* chips and link sit at the foot of the card, whatever its height */
+.about-main .chip-list {
+    margin-top: auto;
+}
+
+.about-main .text-link {
+    margin-top: 28px;
+}
+
+.about-card {
+    padding: clamp(22px, 3vw, 32px);
+}
+
+/* Education timeline */
+.timeline {
+    margin-top: 22px;
+}
+
+.timeline > li {
+    position: relative;
+    padding: 0 0 24px 26px;
+}
+
+.timeline > li:last-child {
+    padding-bottom: 0;
+}
+
+/* the dot and the line joining it to the next entry */
+.timeline > li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--bg-elev);
+}
+
+.timeline > li:first-child::before {
+    border-color: var(--lime);
+    background: var(--lime);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 22%, transparent);
+}
+
+.timeline > li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 20px;
+    bottom: 2px;
+    width: 1px;
+    background: var(--line);
+}
+
+.timeline-period {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.timeline-title {
+    margin-top: 4px;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+}
+
+.timeline-detail {
+    margin-top: 2px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.timeline-place {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.timeline .chip-list {
+    margin-top: 12px;
+}
+
+/* What I'm looking for */
+.about-lead {
+    margin-top: 18px;
+    font-size: 1.1875rem;
+    font-weight: 560;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+}
+
+.about-facts {
+    display: grid;
+    gap: 16px;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.about-facts dt {
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.about-facts dd {
+    font-size: 15px;
+}
+
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about-main {
+        grid-row: auto;
+    }
+}

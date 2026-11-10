@@ -1,0 +1,184 @@
+/* Skill groups on a twelve-column grid; each group sets its own --span (skills.js). */
+.toolkit-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+}
+
+.skill-group {
+    grid-column: span var(--span, 4);
+    padding: 22px;
+}
+
+.skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.skill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 40px;
+    padding: 0 13px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-inset);
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: left;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, translate 0.25s var(--ease-out);
+}
+
+.skill svg {
+    flex-shrink: 0;
+}
+
+/* Skills that link to work: a count badge, and they can be selected. */
+.skill.is-linked {
+    border-color: var(--line-strong);
+    color: var(--ink);
+}
+
+.skill.is-linked:hover {
+    border-color: var(--accent);
+    translate: 0 -2px;
+}
+
+.skill-count {
+    display: grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    margin-right: -4px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--lime) 22%, transparent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.skill[aria-pressed='true'] {
+    border-color: var(--lime);
+    background: var(--lime);
+    color: var(--lime-ink);
+}
+
+.skill[aria-pressed='true'] .skill-count {
+    background: var(--lime-ink);
+    color: var(--lime);
+}
+
+/* The list that opens under a selected skill. */
+.skill-uses {
+    overflow: hidden;
+}
+
+.skill-uses-inner {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.skill-uses-inner > p {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.skill-uses-inner ul {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.skill-uses-inner a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 14px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.skill-uses-inner a:hover {
+    border-color: var(--accent);
+    background: var(--bg-inset);
+}
+
+.skill-uses-inner strong {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.skill-uses-inner a span {
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.skill-uses-inner a svg {
+    color: var(--accent);
+}
+
+.skill-exploring {
+    border-style: dashed;
+    background: transparent;
+}
+
+.skill-exploring .skill {
+    background: transparent;
+}
+
+@media (max-width: 1000px) {
+    .toolkit-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .skill-group {
+        grid-column: span 1;
+    }
+
+    .skill-group:first-child,
+    .skill-group:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .toolkit-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .skill-group,
+    .skill-group:first-child,
+    .skill-group:last-child {
+        grid-column: auto;
+    }
+
+    .skill-uses-inner a {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .skill-uses-inner a span {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .skill-uses-inner a svg {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+}

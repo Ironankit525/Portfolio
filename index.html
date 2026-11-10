@@ -3,29 +3,65 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <link rel="shortcut icon" href="/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta property="og:title" content="Ankit Kumar - Portfolio" />
-  <meta property="og:description"
-    content="AI-focused developer building intelligent systems and scalable web experiences." />
+  <title>Ankit Kumar | Developer portfolio</title>
+  <meta name="description"
+    content="Ankit Kumar is a second-year B.Tech CSE (AI) student in Pune who builds full-stack web apps, AI media pipelines and computer-vision apps, and contributes to open source." />
+  <meta name="author" content="Ankit Kumar" />
+  <meta name="theme-color" content="#050505" />
+  <link rel="canonical" href="https://ankitdevportfolio.vercel.app/" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Link previews. These must be absolute URLs: change the domain here if the site moves. -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ironankit525.github.io/Portfolio/" />
-  <meta property="og:image" content="https://ironankit525.github.io/Portfolio/og-image.png" />
+  <meta property="og:site_name" content="Ankit Kumar" />
+  <meta property="og:title" content="Ankit Kumar | Developer portfolio" />
+  <meta property="og:description"
+    content="Second-year B.Tech CSE (AI) student building full-stack web apps, AI media pipelines and computer-vision apps." />
+  <meta property="og:url" content="https://ankitdevportfolio.vercel.app/" />
+  <meta property="og:image" content="https://ankitdevportfolio.vercel.app/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Ankit Kumar, developer portfolio" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Ankit Kumar - Portfolio" />
-  
+  <meta name="twitter:title" content="Ankit Kumar | Developer portfolio" />
   <meta name="twitter:description"
-    content="AI-focused developer building intelligent systems and scalable web experiences." />
-  <meta name="twitter:image" content="https://ironankit525.github.io/Portfolio/og-image.png" />
-  <title>Ankit Kumar | Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@700&family=Antic&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  </head>
+    content="Second-year B.Tech CSE (AI) student building full-stack web apps, AI media pipelines and computer-vision apps." />
+  <meta name="twitter:image" content="https://ankitdevportfolio.vercel.app/og-image.jpg" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ankit Kumar",
+      "url": "https://ankitdevportfolio.vercel.app/",
+      "jobTitle": "Computer Science student and software developer",
+      "email": "mailto:ankitkumar17541@gmail.com",
+      "address": { "@type": "PostalAddress", "addressLocality": "Pune", "addressCountry": "IN" },
+      "affiliation": { "@type": "CollegeOrUniversity", "name": "Ajeenkya DY Patil University" },
+      "sameAs": ["https://github.com/Ironankit525", "https://www.linkedin.com/in/ankit-kumar525/"]
+    }
+  </script>
+
+  <!-- Pick the theme before the first paint: a saved choice wins, then the system setting, then dark. -->
+  <script>
+    (function () {
+      var theme = 'dark';
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') theme = saved;
+        else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+      } catch (error) { /* storage blocked: keep dark */ }
+      document.documentElement.classList.add(theme);
+      if (theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f4f4ef');
+    })();
+  </script>
+</head>
 
 <body>
   <div id="root"></div>

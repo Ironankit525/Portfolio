@@ -1,0 +1,248 @@
+.contact-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(32px, 5vw, 72px);
+    padding: clamp(24px, 4.5vw, 56px);
+}
+
+.contact-copy .lede {
+    max-width: 44ch;
+}
+
+.contact-email {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.contact-email a {
+    font-size: clamp(1.05rem, 1.9vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-color: var(--lime);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    transition: color 0.2s;
+}
+
+.contact-email a:hover {
+    color: var(--accent);
+}
+
+.contact-copied {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-top: 28px;
+}
+
+.contact-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.contact-links a:hover {
+    color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- Form */
+.contact-form {
+    align-self: center;
+    min-width: 0;
+}
+
+.contact-form fieldset {
+    min-width: 0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.contact-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.contact-form fieldset > label {
+    margin-top: 18px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 14px 15px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--bg-inset);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.75;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--lime) 18%, transparent);
+    outline: none;
+}
+
+.form-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.form-status {
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.form-status.is-error {
+    color: var(--ink);
+}
+
+.form-bottom .button {
+    margin-left: auto;
+}
+
+.form-bottom .button:hover svg {
+    transform: translate(2px, -2px);
+}
+
+fieldset:disabled {
+    opacity: 0.65;
+}
+
+fieldset:disabled button {
+    cursor: wait;
+}
+
+.button-spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* ---------------------------------------------------------------- Footer */
+.footer {
+    margin-top: clamp(24px, 5vw, 64px);
+    border-top: 1px solid var(--line);
+    overflow: clip;
+}
+
+.footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-block: 26px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+}
+
+.footer-row a,
+.footer-row button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+    transition: color 0.2s;
+}
+
+.footer-row a:hover,
+.footer-row button:hover {
+    color: var(--accent);
+}
+
+.footer-row kbd {
+    padding: 2px 7px;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+}
+
+/* The oversized name that closes the page; it fills with lime under the cursor. */
+.footer-name {
+    display: block;
+    margin-bottom: -0.17em;
+    font-size: 14.4vw;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.86;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: transparent;
+    background:
+        radial-gradient(420px circle at var(--mx, 50%) var(--my, 120%), var(--lime), transparent 70%),
+        linear-gradient(var(--line-strong), var(--line-strong));
+    -webkit-background-clip: text;
+    background-clip: text;
+    user-select: none;
+}
+
+@media (max-width: 900px) {
+    .contact-panel {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-bottom {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-bottom .button {
+        width: 100%;
+    }
+}

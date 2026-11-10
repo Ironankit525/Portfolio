@@ -1,0 +1,196 @@
+/* Floating navigation: transparent over the hero, a glass pill once the page scrolls. */
+.nav {
+    position: fixed;
+    inset: 12px 0 auto 0;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.nav-bar,
+.nav-sheet {
+    width: min(var(--container) + 32px, 100% - 24px);
+    margin-inline: auto;
+    pointer-events: auto;
+}
+
+.nav-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: 60px;
+    padding: 0 9px 0 16px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.nav.is-solid .nav-bar {
+    border-color: var(--line);
+    background: var(--scrim);
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.nav-mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--lime);
+    color: var(--lime-ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+.nav-links {
+    position: absolute;
+    left: 50%;
+    display: flex;
+    gap: 2px;
+    transform: translateX(-50%);
+}
+
+.nav-links a {
+    position: relative;
+    display: block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    isolation: isolate;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current] {
+    color: var(--ink);
+}
+
+.nav-active {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-inset);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-search {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 42px;
+    padding: 0 12px 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.nav-search:hover {
+    border-color: var(--line-strong);
+    background: var(--bg-inset);
+    color: var(--ink);
+}
+
+.nav-search kbd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+/* The mobile menu */
+.nav-sheet {
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    background: var(--bg-elev);
+    box-shadow: var(--shadow);
+}
+
+.nav-sheet li a {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 13px 14px;
+    border-radius: 16px;
+    font-size: 1.25rem;
+    font-weight: 560;
+    letter-spacing: -0.02em;
+}
+
+.nav-sheet li a span {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+}
+
+.nav-sheet li a:hover,
+.nav-sheet a[aria-current] {
+    background: var(--bg-inset);
+}
+
+.nav-sheet a[aria-current] span {
+    color: var(--accent);
+}
+
+.nav-sheet .resume-button {
+    display: flex;
+    margin-top: 8px;
+}
+
+.nav-sheet .resume-button a:first-child {
+    flex: 1;
+}
+
+@media (max-width: 1000px) {
+    .nav-links,
+    .nav-resume,
+    .nav-search kbd {
+        display: none;
+    }
+
+    .nav-search {
+        justify-content: center;
+        width: 42px;
+        padding: 0;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+    }
+}
+
+@media (min-width: 1001px) {
+    .nav-sheet {
+        display: none;
+    }
+}

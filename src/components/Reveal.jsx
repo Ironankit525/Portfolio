@@ -1,16 +1,19 @@
 import { motion, useReducedMotion } from 'framer-motion';
 
-export default function Reveal({ children, className = '', delay = 0 }) {
+// Fades content up the first time it scrolls into view. `as` picks the element ("div", "li", "article"…).
+export default function Reveal({ children, as = 'div', className, delay = 0, ...rest }) {
     const reducedMotion = useReducedMotion();
+    const Element = motion[as];
     return (
-        <motion.div
+        <Element
             className={className}
-            initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 26 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.08 }}
-            transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+            {...rest}
         >
             {children}
-        </motion.div>
+        </Element>
     );
 }
