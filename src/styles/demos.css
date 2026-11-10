@@ -1,0 +1,692 @@
+/* The interactive parts of a case study: the live demo frame (LiveDemo.jsx)
+   and the speaker-tracking figure (TrackingDemo.jsx). */
+
+.case-note {
+    max-width: 72ch;
+    margin: -6px 0 24px;
+    color: var(--muted);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+}
+
+/* ---------------------------------------------------------------- Live demo */
+.demo {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--bg-elev);
+}
+
+.demo-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 46px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-inset);
+    font-size: 13px;
+}
+
+.demo-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.demo-dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line-strong);
+}
+
+.demo-url {
+    margin-right: auto;
+    overflow: hidden;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.demo-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    color: var(--ink-soft);
+    font-weight: 550;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.demo-action:hover {
+    color: var(--accent);
+}
+
+.demo-stage {
+    position: relative;
+    height: clamp(480px, 76vh, 720px);
+    background: var(--bg-inset);
+}
+
+.demo-stage iframe {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: none;
+}
+
+/* Keyboard focus inside the demo is shown on the whole frame, where it is not clipped. */
+.demo:has(iframe:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* behind the frame: the app covers it as soon as it draws */
+.demo-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Before the demo is loaded: the cover screenshot, faded, with the button on top. */
+.demo-poster {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    overflow: hidden;
+}
+
+.demo-poster img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 0;
+    filter: blur(4px) saturate(0.7);
+    opacity: 0.45;
+    transform: scale(1.03);
+}
+
+.demo-prompt {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    margin: 16px;
+    padding: 28px 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--scrim);
+    text-align: center;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+}
+
+.demo-prompt p {
+    color: var(--ink-soft);
+    font-size: 14px;
+}
+
+.demo-open {
+    display: none;
+}
+
+/* ---------------------------------------------------------------- Tracking figure
+   Colours: the frame Clipper produces is lime, the naive one is neutral grey.
+   On a light surface the lime is darkened so a 2px line still reads; this pair was
+   checked for colour-blind separation in both themes. */
+.tracking {
+    --fig-steady: #7f9800;
+    --fig-naive: var(--muted);
+    --fig-face: color-mix(in srgb, var(--muted) 55%, var(--bg-elev));
+}
+
+:root.dark .tracking {
+    --fig-steady: var(--lime);
+}
+
+.tracking-panel {
+    display: grid;
+    gap: clamp(18px, 2.4vw, 28px);
+    padding: clamp(14px, 2.4vw, 26px);
+}
+
+/* 256 : 81 : 81 gives a 16:9 view and two 9:16 views the same height. */
+.tracking-stage {
+    display: grid;
+    grid-template-columns: 256fr 81fr 81fr;
+    align-items: start;
+    gap: clamp(10px, 1.4vw, 16px);
+}
+
+.tracking-view {
+    min-width: 0;
+}
+
+.tracking-view svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg-inset);
+}
+
+.tracking-view.is-steady svg {
+    border-color: var(--fig-steady);
+}
+
+.tracking-view figcaption {
+    display: grid;
+    gap: 3px;
+    margin-top: 12px;
+}
+
+.tracking-source figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 18px;
+}
+
+.tracking-stat {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.tracking-stat strong {
+    margin-right: 3px;
+    color: var(--ink);
+    font-size: 1.75rem;
+    font-weight: 680;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+}
+
+.tracking-sub {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* the set */
+.sc-wall {
+    fill: var(--bg-inset);
+}
+
+.sc-slat {
+    stroke: var(--line);
+    stroke-width: 3;
+}
+
+.sc-shelf {
+    stroke: var(--line-strong);
+    stroke-width: 5;
+    stroke-linecap: round;
+}
+
+.sc-prop {
+    fill: color-mix(in srgb, var(--ink) 14%, var(--bg-inset));
+}
+
+.sc-lamp {
+    fill: color-mix(in srgb, var(--fig-steady) 60%, var(--bg-inset));
+}
+
+.sc-host {
+    fill: color-mix(in srgb, var(--ink) 26%, var(--bg-inset));
+}
+
+.sc-speaker {
+    fill: color-mix(in srgb, var(--ink) 64%, var(--bg-inset));
+}
+
+.sc-desk {
+    fill: color-mix(in srgb, var(--ink) 8%, var(--bg-elev));
+}
+
+.sc-mic line {
+    stroke: var(--muted);
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.sc-mic rect {
+    fill: var(--muted);
+}
+
+/* what the tracker sees, drawn over the source view */
+.ov-dim {
+    fill: var(--bg);
+    opacity: 0.62;
+}
+
+.ov-band {
+    fill: var(--fig-steady);
+    opacity: 0.18;
+}
+
+.ov-crop {
+    fill: none;
+    stroke: var(--fig-steady);
+    stroke-width: 6;
+}
+
+.ov-face {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* legend keys: each one mirrors its mark */
+.tracking-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    color: var(--muted);
+    font-size: 12.5px;
+}
+
+.tracking-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+.key {
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.key-line {
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--fig-naive);
+}
+
+.key-line.is-steady {
+    background: var(--fig-steady);
+}
+
+.key-band {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--fig-steady) 30%, transparent);
+}
+
+.key-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--fig-face);
+}
+
+.key-frame {
+    width: 8px;
+    height: 13px;
+    border: 1.5px solid var(--fig-steady);
+    border-radius: 2px;
+}
+
+.key-face {
+    width: 11px;
+    height: 11px;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+}
+
+/* the chart, which is also the clip's timeline */
+.tracking-chart {
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+}
+
+.tracking-chart-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 20px;
+}
+
+.tracking-plot {
+    position: relative;
+    min-width: 0;
+    border-radius: 8px;
+}
+
+.tracking-plot svg {
+    display: block;
+    overflow: visible;
+}
+
+.tracking-plot:has(.tracking-scrub:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+.ch-grid {
+    stroke: var(--line);
+}
+
+.ch-axis {
+    stroke: var(--line-strong);
+}
+
+.ch-label {
+    fill: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+.ch-band {
+    fill: var(--fig-steady);
+    opacity: 0.12;
+}
+
+.ch-face {
+    fill: var(--fig-face);
+}
+
+.ch-line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ch-line.is-naive {
+    stroke: var(--fig-naive);
+}
+
+.ch-line.is-steady {
+    stroke: var(--fig-steady);
+}
+
+.ch-head {
+    stroke: var(--ink);
+}
+
+.ch-probe {
+    stroke: var(--muted);
+}
+
+/* the ring in the surface colour keeps a dot readable where it sits on a line */
+.ch-dot {
+    stroke: var(--bg-elev);
+    stroke-width: 2;
+}
+
+.ch-dot.is-naive {
+    fill: var(--fig-naive);
+}
+
+.ch-dot.is-steady {
+    fill: var(--fig-steady);
+}
+
+/* An invisible native slider over the plot: it gives click, drag, touch and
+   keyboard seeking without any custom handling. */
+.tracking-scrub {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    touch-action: pan-y;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.tracking-scrub::-webkit-slider-thumb {
+    width: 2px;
+    height: 100%;
+    -webkit-appearance: none;
+}
+
+.tracking-scrub::-moz-range-thumb {
+    width: 2px;
+    border: 0;
+}
+
+.tracking-tip {
+    position: absolute;
+    top: 4px;
+    z-index: 2;
+    min-width: 196px;
+    padding: 10px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    background: var(--bg-elev);
+    box-shadow: var(--shadow);
+    font-size: 12.5px;
+    pointer-events: none;
+}
+
+.tracking-tip p {
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+}
+
+.tracking-tip dl > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    line-height: 1.7;
+}
+
+.tracking-tip dt {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--muted);
+}
+
+.tracking-tip dd {
+    color: var(--ink);
+    font-weight: 620;
+    font-variant-numeric: tabular-nums;
+}
+
+/* controls */
+.tracking-controls {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(16px, 3vw, 32px);
+    padding-top: clamp(16px, 2vw, 22px);
+    border-top: 1px solid var(--line);
+}
+
+.tracking-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.tracking-band {
+    display: grid;
+    flex: 1;
+    gap: 4px;
+    min-width: 0;
+    max-width: 600px;
+}
+
+.tracking-band label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 7px;
+    min-height: 28px;
+    color: var(--ink-soft);
+    font-size: 14px;
+}
+
+.tracking-band label strong {
+    min-width: 2.2em;
+    color: var(--ink);
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.tracking-band label .chip {
+    margin-left: 6px;
+    padding-block: 2px;
+}
+
+.tracking-range {
+    width: 100%;
+    height: 28px;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.tracking-range::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--fig-steady) var(--fill), var(--line-strong) var(--fill));
+}
+
+.tracking-range::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line-strong);
+}
+
+.tracking-range::-moz-range-progress {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--fig-steady);
+}
+
+.tracking-range::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: -8px;
+    border: 3px solid var(--bg-elev);
+    border-radius: 50%;
+    background: var(--ink);
+    box-shadow: 0 0 0 1px var(--line-strong);
+    -webkit-appearance: none;
+}
+
+.tracking-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 3px solid var(--bg-elev);
+    border-radius: 50%;
+    background: var(--ink);
+    box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.tracking-verdict {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 14px;
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+.tracking-verdict .text-link {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.tracking-note {
+    max-width: 82ch;
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.tracking-note a {
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.tracking-note a:hover {
+    color: var(--accent);
+}
+
+/* ---------------------------------------------------------------- Responsive */
+@media (max-width: 760px) {
+    /* The frame is too small to use on a phone, so the button opens the site instead. */
+    .demo-load {
+        display: none;
+    }
+
+    .demo-open {
+        display: inline-flex;
+    }
+
+    .demo-stage:not(:has(iframe)) {
+        height: 320px;
+    }
+
+    .demo-dots {
+        display: none;
+    }
+
+    /* the big button already opens the site, so the bar does not repeat it */
+    .demo:not(:has(iframe)) .demo-action {
+        display: none;
+    }
+
+    .demo-prompt {
+        padding: 24px 20px;
+    }
+
+    /* the source view on top, the two results side by side under it */
+    .tracking-stage {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tracking-source {
+        grid-column: 1 / -1;
+    }
+
+    .tracking-controls {
+        flex-direction: column;
+    }
+
+    .tracking-band {
+        width: 100%;
+    }
+
+    /* room for two lines, so the layout does not jump while the slider moves */
+    .tracking-verdict {
+        min-height: 3em;
+    }
+}

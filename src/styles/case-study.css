@@ -1,0 +1,645 @@
+/* The case study is a full-screen modal <dialog> with its own scroll. */
+.case {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.case[open] {
+    animation: case-in 0.5s var(--ease-out);
+}
+
+.case::backdrop {
+    background: var(--bg);
+}
+
+@keyframes case-in {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+}
+
+.case-bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px var(--gutter);
+    border-bottom: 1px solid var(--line);
+    background: var(--scrim);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
+}
+
+.case-bar .text-link {
+    min-height: 42px;
+}
+
+.case-bar .text-link:hover svg {
+    transform: translateX(-3px);
+}
+
+.case-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.case-count {
+    margin-right: 8px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+}
+
+.case-body {
+    padding-block: clamp(40px, 7vw, 84px) clamp(48px, 7vw, 96px);
+}
+
+/* ---------------------------------------------------------------- Header */
+.case h1 {
+    max-width: 16ch;
+    font-size: clamp(2.7rem, 8vw, 6.2rem);
+    font-weight: 720;
+    letter-spacing: -0.052em;
+    line-height: 0.98;
+}
+
+.case-subtitle {
+    margin-top: 16px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+}
+
+.case-lede {
+    max-width: 66ch;
+    margin-top: 22px;
+    color: var(--ink-soft);
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    line-height: 1.65;
+}
+
+.case-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.case-actions:empty {
+    display: none;
+}
+
+.case-missing {
+    min-height: 60vh;
+}
+
+/* ---------------------------------------------------------------- Cover */
+.case-cover {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin-top: clamp(36px, 5vw, 60px);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: clamp(16px, 2.4vw, 28px);
+    background: var(--bg-inset);
+    cursor: zoom-in;
+}
+
+.case-cover img {
+    width: 100%;
+    max-height: 78vh;
+    object-fit: cover;
+    object-position: 50% 0;
+    transition: transform 0.9s var(--ease-out);
+}
+
+.case-cover:hover img {
+    transform: scale(1.015);
+}
+
+.case-zoom {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    background: rgb(10 10 10 / 0.78);
+    color: #f4f4ef;
+    font-size: 12px;
+    font-weight: 500;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+/* ---------------------------------------------------------------- Body */
+.case-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(28px, 5vw, 72px);
+    margin-top: clamp(44px, 6vw, 80px);
+}
+
+.case-section {
+    margin-top: clamp(48px, 7vw, 96px);
+}
+
+.case-heading {
+    margin-bottom: 20px;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    font-weight: 640;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+}
+
+.case-highlights li {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    gap: 8px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+}
+
+.case-highlights li:last-child {
+    border-bottom: 1px solid var(--line);
+}
+
+.case-highlights span {
+    padding-top: 4px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+}
+
+.case-highlights p {
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+}
+
+.case-aside {
+    position: sticky;
+    top: 92px;
+    display: grid;
+    gap: 14px;
+    padding: 26px;
+}
+
+.case-aside .panel-title:not(:first-child) {
+    margin-top: 10px;
+}
+
+.case-metrics {
+    display: grid;
+    gap: 18px;
+    padding-bottom: 22px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+}
+
+.case-metrics > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.case-metrics dd {
+    order: 1;
+    color: var(--accent);
+    font-size: 2.4rem;
+    font-weight: 680;
+    letter-spacing: -0.045em;
+    line-height: 1;
+}
+
+.case-metrics dt {
+    order: 2;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.case-role {
+    color: var(--ink-soft);
+    font-size: 15px;
+}
+
+/* ---------------------------------------------------------------- Pipeline
+   A row of stages joined by a line, with a light travelling along it. */
+.pipeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 28px 18px;
+}
+
+.pipeline::before,
+.pipeline::after {
+    content: '';
+    position: absolute;
+    top: 17px;
+    left: 18px;
+    height: 1px;
+}
+
+.pipeline::before {
+    right: 18px;
+    background: var(--line-strong);
+}
+
+.pipeline::after {
+    width: 90px;
+    background: linear-gradient(90deg, transparent, var(--lime), transparent);
+    animation: pipeline-flow 4.5s linear infinite;
+}
+
+@keyframes pipeline-flow {
+    from {
+        left: 0;
+        opacity: 0;
+    }
+
+    12%,
+    88% {
+        opacity: 1;
+    }
+
+    to {
+        left: calc(100% - 90px);
+        opacity: 0;
+    }
+}
+
+.pipeline li {
+    position: relative;
+    z-index: 1;
+}
+
+.pipeline-index {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.pipeline li:hover .pipeline-index {
+    border-color: var(--lime);
+    background: var(--lime);
+    color: var(--lime-ink);
+}
+
+.pipeline-step {
+    margin-top: 14px;
+    font-size: 1.0625rem;
+    font-weight: 620;
+    letter-spacing: -0.02em;
+}
+
+.pipeline-tool {
+    margin-top: 2px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.pipeline-detail {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------- Gallery */
+.case-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+/* an odd one out spans the full row */
+.case-gallery:not(.case-gallery-portrait) li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
+.case-gallery-portrait {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-gallery button {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--bg-elev);
+    text-align: left;
+    cursor: zoom-in;
+    transition: border-color 0.25s;
+}
+
+.case-gallery button:hover {
+    border-color: var(--line-strong);
+}
+
+.case-thumb {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--bg-inset);
+}
+
+.case-gallery li:last-child:nth-child(odd) .case-thumb {
+    aspect-ratio: 16 / 8;
+}
+
+.case-gallery-portrait .case-thumb,
+.case-gallery-portrait li:last-child:nth-child(odd) .case-thumb {
+    aspect-ratio: 9 / 16;
+}
+
+.case-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 0;
+    transition: transform 0.7s var(--ease-out);
+}
+
+.case-gallery button:hover img {
+    transform: scale(1.03);
+}
+
+.case-caption {
+    display: flex;
+    gap: 12px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.case-caption span {
+    color: var(--accent);
+    font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------- Next project */
+.case-next {
+    display: grid;
+    gap: 6px;
+    margin-top: clamp(48px, 7vw, 96px);
+    padding: clamp(24px, 4vw, 44px);
+    transition: border-color 0.25s, background 0.25s;
+}
+
+.case-next .kicker {
+    margin-bottom: 4px;
+}
+
+.case-next-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(1.8rem, 5vw, 3.4rem);
+    font-weight: 680;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+}
+
+.case-next-title svg {
+    flex-shrink: 0;
+    width: 0.8em;
+    height: 0.8em;
+    color: var(--accent);
+    transition: transform 0.35s var(--ease-out);
+}
+
+.case-next-summary {
+    max-width: 60ch;
+    color: var(--muted);
+}
+
+.case-next:hover {
+    border-color: var(--accent);
+}
+
+.case-next:hover .case-next-title svg {
+    transform: translateX(10px);
+}
+
+/* ---------------------------------------------------------------- Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 64px 16px 24px;
+    border: 0;
+    background: transparent;
+    color: #f4f4ef;
+}
+
+.lightbox[open] {
+    display: grid;
+    place-items: center;
+    animation: lightbox-in 0.25s ease-out;
+}
+
+.lightbox::backdrop {
+    background: rgb(4 4 4 / 0.93);
+}
+
+@keyframes lightbox-in {
+    from {
+        opacity: 0;
+    }
+}
+
+.lightbox figure {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    max-width: min(1500px, 100%);
+    touch-action: pan-y;
+}
+
+.lightbox img {
+    max-width: 100%;
+    max-height: calc(100dvh - 150px);
+    border-radius: 12px;
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.6);
+    user-select: none;
+    animation: lightbox-image 0.3s var(--ease-out);
+}
+
+@keyframes lightbox-image {
+    from {
+        opacity: 0;
+        transform: scale(0.985);
+    }
+}
+
+.lightbox figcaption {
+    display: flex;
+    gap: 14px;
+    color: #c9c9c1;
+    font-size: 14px;
+    text-align: center;
+}
+
+.lightbox figcaption span {
+    color: var(--lime);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+}
+
+.lightbox .icon-button {
+    position: fixed;
+    border-color: rgb(255 255 255 / 0.22);
+    background: rgb(20 20 20 / 0.7);
+    color: #f4f4ef;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.lightbox .icon-button:hover {
+    border-color: var(--lime);
+    background: var(--lime);
+    color: var(--lime-ink);
+}
+
+.lightbox-close {
+    top: 14px;
+    right: 16px;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    top: 50%;
+    translate: 0 -50%;
+}
+
+.lightbox-prev {
+    left: 16px;
+}
+
+.lightbox-next {
+    right: 16px;
+}
+
+/* ---------------------------------------------------------------- Responsive */
+@media (max-width: 900px) {
+    .case-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .case-aside {
+        position: static;
+        order: -1;
+    }
+
+    .case-metrics {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .case-gallery {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .case-gallery-portrait {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .case-gallery li:last-child:nth-child(odd) .case-thumb {
+        aspect-ratio: 16 / 10;
+    }
+
+    .case-gallery-portrait li:last-child:nth-child(odd) .case-thumb {
+        aspect-ratio: 9 / 16;
+    }
+
+    /* stages stack, so the joining line runs down the side instead */
+    .pipeline {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+    }
+
+    .pipeline::before {
+        top: 18px;
+        bottom: 18px;
+        left: 18px;
+        right: auto;
+        width: 1px;
+        height: auto;
+    }
+
+    .pipeline::after {
+        display: none;
+    }
+
+    .pipeline li {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        column-gap: 16px;
+    }
+
+    .pipeline-index {
+        grid-row: span 3;
+    }
+
+    .pipeline-step {
+        margin-top: 5px;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+        top: auto;
+        bottom: 18px;
+        translate: none;
+    }
+
+    .lightbox {
+        padding-bottom: 76px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pipeline::after {
+        display: none;
+    }
+}

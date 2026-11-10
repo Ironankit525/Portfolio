@@ -1,0 +1,448 @@
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(32px, 5vh, 56px);
+    min-height: max(100svh, 720px);
+    padding-block: 108px 32px;
+    overflow: clip;
+    isolation: isolate;
+}
+
+/* The water effect (WaterField.jsx). It fades in over the dot grid once it has loaded. */
+.water-field {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.4s ease;
+}
+
+.water-field.is-ready {
+    opacity: 1;
+}
+
+/* Keeps the text readable over the water and blends the hero into the page below. */
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(90deg, color-mix(in srgb, var(--bg) 82%, transparent), color-mix(in srgb, var(--bg) 30%, transparent) 62%, transparent),
+        linear-gradient(var(--bg), transparent 18%, transparent 72%, var(--bg));
+    pointer-events: none;
+}
+
+/* The scene is a night sky; inverted, it reads as pale rippled paper on the light theme. */
+:root:not(.dark) .water-field.is-ready {
+    filter: invert(1) grayscale(1);
+    opacity: 0.5;
+}
+
+/* The interactive dot grid (DotField.jsx), faded out toward the edges. */
+.dot-field {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(115% 85% at 50% 38%, #000 30%, transparent 86%);
+    mask-image: radial-gradient(115% 85% at 50% 38%, #000 30%, transparent 86%);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.42fr) minmax(0, 0.8fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 88px);
+}
+
+/* ---------------------------------------------------------------- Copy */
+.hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 14px 7px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bg-elev) 70%, transparent);
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.hero-status svg {
+    color: var(--muted);
+}
+
+.hero-status-divider {
+    width: 1px;
+    height: 12px;
+    margin-inline: 4px;
+    background: var(--line-strong);
+}
+
+.hero-name {
+    margin: 26px 0 30px -0.045em;
+    font-size: clamp(4rem, 24vw, 9rem);
+    font-weight: 800;
+    letter-spacing: -0.028em;
+    line-height: 0.84;
+    text-transform: uppercase;
+}
+
+/* Each line slides up out of its own clipping box. */
+.hero-line {
+    display: block;
+    padding-block: 0.04em 0.02em;
+    overflow: hidden;
+}
+
+.hero-line > span {
+    display: block;
+}
+
+.hero-line-accent {
+    color: var(--accent);
+}
+
+/* Lime text is unreadable on the light background, so there the surname sits on a lime block. */
+:root:not(.dark) .hero-line-accent > span {
+    display: inline-block;
+    margin-left: -0.02em;
+    padding: 0.035em 0.07em 0;
+    background: var(--lime);
+    color: var(--lime-ink);
+}
+
+.hero-role {
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--ink);
+    min-height: 1.6em;
+}
+
+.hero-prompt {
+    color: var(--accent);
+    margin-right: 4px;
+}
+
+.typed {
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.typed-caret {
+    display: inline-block;
+    width: 0.56em;
+    height: 1.1em;
+    margin-left: 3px;
+    background: var(--lime);
+    vertical-align: -0.2em;
+    animation: caret-blink 1.05s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.hero-intro {
+    max-width: 56ch;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.65;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.hero-socials {
+    display: flex;
+    gap: 8px;
+    margin-left: 6px;
+}
+
+.hero-socials .icon-button {
+    width: 54px;
+    height: 54px;
+    background: color-mix(in srgb, var(--bg-elev) 70%, transparent);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+/* ---------------------------------------------------------------- Portrait */
+.portrait {
+    position: relative;
+    justify-self: end;
+    width: min(100%, 400px);
+    perspective: 1200px;
+}
+
+/* a lime haze behind the card */
+.portrait::before {
+    content: '';
+    position: absolute;
+    inset: 10% -14% -8%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--lime) 34%, transparent), transparent);
+    filter: blur(36px);
+    opacity: 0.55;
+}
+
+.portrait-card {
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.portrait-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 34px;
+    background: #000;
+    box-shadow: 0 50px 90px -40px rgb(0 0 0 / 0.75);
+}
+
+.portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 12%;
+}
+
+.portrait-glare {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+}
+
+.portrait-tag {
+    position: absolute;
+    left: -22px;
+    bottom: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    background: var(--scrim);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    transform: translateZ(54px);
+}
+
+.portrait-tag svg {
+    color: var(--accent);
+}
+
+/* The rotating "open to internships" seal, linking to the contact form. */
+.spin-badge {
+    position: absolute;
+    top: -38px;
+    right: -38px;
+    display: grid;
+    place-items: center;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--lime-ink);
+    box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.6);
+    transform: translateZ(72px);
+    transition: scale 0.3s var(--ease-out);
+}
+
+.spin-badge:hover {
+    scale: 1.06;
+}
+
+.spin-badge svg:first-child {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: spin 18s linear infinite;
+}
+
+.spin-badge:hover svg:first-child {
+    animation-duration: 7s;
+}
+
+.spin-badge text {
+    fill: currentColor;
+    font-family: var(--font-mono);
+    font-size: 9.6px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.spin-badge svg:last-child {
+    transition: transform 0.3s var(--ease-out);
+}
+
+.spin-badge:hover svg:last-child {
+    transform: rotate(45deg);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------------------------------------------------------------- Marquee */
+.marquee {
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    background: var(--bg-elev);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.marquee ul {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.marquee li {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 18px 14px;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.marquee li:nth-child(even) {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--muted);
+}
+
+.marquee li svg {
+    color: var(--accent);
+}
+
+@keyframes marquee {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ---------------------------------------------------------------- Responsive */
+@media (min-width: 901px) {
+    .hero-name {
+        font-size: clamp(5.5rem, min(12.2vw, 19svh), 11rem);
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        padding-top: 112px;
+    }
+
+    .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .portrait {
+        justify-self: center;
+        width: min(100% - 44px, 360px);
+        margin-top: 28px;
+    }
+
+    /* Text runs the full width here, so the water is dimmed evenly behind it. */
+    .hero::after {
+        background: linear-gradient(
+            var(--bg),
+            color-mix(in srgb, var(--bg) 66%, transparent) 14%,
+            color-mix(in srgb, var(--bg) 66%, transparent) 80%,
+            var(--bg)
+        );
+    }
+}
+
+@media (max-width: 520px) {
+    .hero-actions .button {
+        flex: 1 1 100%;
+    }
+
+    .hero-actions .magnetic,
+    .hero-actions .resume-button {
+        flex: 1 1 100%;
+    }
+
+    .hero-actions .resume-button a:first-child {
+        flex: 1;
+    }
+
+    .hero-socials {
+        margin-left: 0;
+    }
+
+    .hero-socials .icon-button {
+        width: 48px;
+        height: 48px;
+    }
+
+    .spin-badge {
+        top: -30px;
+        right: -22px;
+        width: 104px;
+        height: 104px;
+    }
+
+    .portrait-tag {
+        left: -12px;
+        bottom: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spin-badge svg:first-child,
+    .marquee-track,
+    .typed-caret,
+    .pulse-dot::after {
+        animation: none;
+    }
+}
